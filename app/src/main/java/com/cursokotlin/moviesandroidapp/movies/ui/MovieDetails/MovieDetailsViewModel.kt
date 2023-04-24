@@ -1,10 +1,9 @@
-package com.cursokotlin.moviesandroidapp.movies.ui
+package com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cursokotlin.moviesandroidapp.movies.data.network.response.MovieDetailsResponse
 import com.cursokotlin.moviesandroidapp.movies.domain.GetMovieDetailsUseCase
 import com.cursokotlin.moviesandroidapp.movies.ui.model.MovieModel
 import dagger.hilt.android.lifecycle.HiltViewModel

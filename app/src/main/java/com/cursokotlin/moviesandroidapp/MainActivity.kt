@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import com.cursokotlin.moviesandroidapp.movies.ui.MovieDetailsScreen
-import com.cursokotlin.moviesandroidapp.movies.ui.MovieDetailsViewModel
+import com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails.MovieDetailsScreen
+import com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails.MovieDetailsViewModel
 import com.cursokotlin.moviesandroidapp.ui.theme.MoviesAndroidAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
