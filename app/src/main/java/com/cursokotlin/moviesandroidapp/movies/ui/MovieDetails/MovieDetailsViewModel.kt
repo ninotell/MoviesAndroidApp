@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieDetailsViewModel @Inject constructor (
+class MovieDetailsViewModel @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -29,22 +29,17 @@ class MovieDetailsViewModel @Inject constructor (
     val movie: LiveData<MovieModel> = _movie
 
     init {
-        val movieId : Int? = savedStateHandle["movieId"]
+        val movieId: Int? = savedStateHandle["movieId"]
         fetchMovie(movieId!!)
     }
 
-    private fun fetchMovie(movieId : Int) {
+    private fun fetchMovie(movieId: Int) {
         viewModelScope.launch {
             _isLoading.value = true
-            Log.d("FETCH", movieId.toString())
             val result =
                 movieId.let { getMovieDetailsUseCase.invoke(it) }
             _movie.value = result?.toUIModel()
             _isLoading.value = false
         }
-    }
-
-    fun clearScreen(){
-        _movie.value = null
     }
 }

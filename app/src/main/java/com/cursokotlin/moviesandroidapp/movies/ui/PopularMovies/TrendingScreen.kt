@@ -1,5 +1,6 @@
 package com.cursokotlin.moviesandroidapp.movies.ui.PopularMovies
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -45,6 +46,7 @@ fun TrendingScreen(trendingViewModel: TrendingViewModel, navController: NavHostC
     Column(
         Modifier
             .fillMaxSize()
+            .background(Color(0xFF1E1E1E))
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -71,36 +73,11 @@ fun TrendingScreen(trendingViewModel: TrendingViewModel, navController: NavHostC
             Spacer(modifier = Modifier.padding(12.dp))
 
             TrendingSection("people", trendingPeople, navController)
+
+            Spacer(modifier = Modifier.padding(18.dp))
         }
     }
 }
-
-//@Composable
-//fun TVShowsSection(trendingTVShows: List<TrendingItemModel>) {
-//    SectionTitle("TV shows")
-//    LazyRow(
-//        horizontalArrangement = Arrangement.spacedBy(24.dp),
-//        modifier = Modifier.padding(start = 12.dp)
-//    ) {
-//        items(trendingTVShows, key = { it.id }) {
-//            TVShowItem(tvShow = it)
-//        }
-//    }
-//}
-//
-//@Composable
-//fun PeopleSection(trendingPeople: List<TrendingItemModel>) {
-//    SectionTitle("people")
-//    LazyRow(
-//        horizontalArrangement = Arrangement.spacedBy(24.dp),
-//        modifier = Modifier.padding(start = 12.dp)
-//    ) {
-//        items(trendingPeople, key = { it.id }) {
-//            PersonItem(person = it)
-//        }
-//    }
-//}
-
 @Composable
 fun SectionTitle(s: String) {
     Text(
@@ -112,19 +89,6 @@ fun SectionTitle(s: String) {
         fontSize = 18.sp,
         fontWeight = FontWeight.SemiBold
     )
-}
-
-@Composable
-fun MovieSection(movieList: List<TrendingItemModel>, navController: NavHostController) {
-    SectionTitle("movies")
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(24.dp),
-        modifier = Modifier.padding(start = 12.dp)
-    ) {
-        items(movieList, key = { it.id }) {
-            MovieItem(movie = it, navController)
-        }
-    }
 }
 
 @Composable
@@ -156,104 +120,6 @@ fun TopImage(image: String?) {
         contentScale = ContentScale.Crop
     )
 }
-
-//@Composable
-//fun PersonItem(person: TrendingItemModel) {
-//    Column(
-//        Modifier
-//            .width(130.dp)
-//            .height(250.dp)
-//    ) {
-//        AsyncImage(
-//            model = "https://image.tmdb.org/t/p/w500/${person.profilePath}",
-//            contentDescription = "background",
-//            modifier = Modifier
-//                .clip(RoundedCornerShape(12.dp))
-//                .fillMaxWidth(),
-//            contentScale = ContentScale.FillWidth
-//        )
-//        Text(
-//            text = person.originalName ?: "No title",
-//            fontSize = 11.sp,
-//            fontWeight = FontWeight.SemiBold
-//        )
-//        Text(
-//            text = person.releaseDate?.substring(0, 4) ?: "",
-//            fontSize = 10.sp,
-//            fontWeight = FontWeight.Light,
-//            color = Color.LightGray
-//        )
-//    }
-//}
-//
-//@Composable
-//fun TVShowItem(tvShow: TrendingItemModel) {
-//    Column(
-//        Modifier
-//            .width(130.dp)
-//            .height(250.dp)
-//    ) {
-//        AsyncImage(
-//            model = "https://image.tmdb.org/t/p/w500/${tvShow.posterPath}",
-//            contentDescription = "background",
-//            modifier = Modifier
-//                .clip(RoundedCornerShape(12.dp))
-//                .fillMaxWidth(),
-//            contentScale = ContentScale.FillWidth
-//        )
-//        Text(
-//            text = tvShow.originalName ?: "No title",
-//            fontSize = 11.sp,
-//            fontWeight = FontWeight.SemiBold
-//        )
-//        Text(
-//            text = tvShow.releaseDate?.substring(0, 4) ?: "",
-//            fontSize = 10.sp,
-//            fontWeight = FontWeight.Light,
-//            color = Color.LightGray
-//        )
-//    }
-//}
-
-@Composable
-fun MovieItem(movie: TrendingItemModel, navController: NavHostController) {
-    Column(
-        Modifier
-            .width(130.dp)
-            .height(250.dp)
-    ) {
-        AsyncImage(
-            model = "https://image.tmdb.org/t/p/w500/${movie.posterPath}",
-            contentDescription = "background",
-            modifier = Modifier
-                .clip(RoundedCornerShape(12.dp))
-                .fillMaxWidth()
-                .clickable {
-                    navController.navigate(DetailsNavGraph.MovieDetails.createRoute(movie.id))
-                },
-            contentScale = ContentScale.FillWidth
-        )
-        Column(
-            Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = movie.originalTitle ?: "No title",
-                fontSize = 12.sp,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(top = 4.dp),
-                maxLines = 2
-            )
-            Text(
-                text = movie.releaseDate?.substring(0, 4) ?: "",
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Light,
-                color = Color.LightGray
-            )
-        }
-    }
-}
-
 @Composable
 fun TrendingItem(item: TrendingItemModel, navController: NavHostController) {
     Column(

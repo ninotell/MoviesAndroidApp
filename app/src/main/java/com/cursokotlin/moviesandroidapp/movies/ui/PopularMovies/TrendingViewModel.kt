@@ -38,7 +38,6 @@ class TrendingViewModel @Inject constructor(
     fun getTrending() {
         viewModelScope.launch {
             _isLoading.value = true
-            //Person and TV have name and originalName, Movies have title and originalTitle
 
             val resultMovieList = getTrendingMoviesUseCase.invoke()?.results
             resultMovieList?.map { _trendingMovies.add(it.toUIModel()) }
