@@ -1,6 +1,9 @@
 package com.cursokotlin.moviesandroidapp.core.di
 
-import com.cursokotlin.moviesandroidapp.movies.data.network.MoviesClient
+import android.app.Application
+import androidx.lifecycle.ViewModelProvider
+import com.cursokotlin.moviesandroidapp.movies.data.network.ApiClient
+import com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails.MovieDetailsViewModel
 import com.cursokotlin.moviesandroidapp.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -25,7 +28,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun providesMoviesClient(retrofit: Retrofit): MoviesClient{
-        return retrofit.create(MoviesClient::class.java)
+    fun providesMoviesClient(retrofit: Retrofit): ApiClient {
+        return retrofit.create(ApiClient::class.java)
     }
 }

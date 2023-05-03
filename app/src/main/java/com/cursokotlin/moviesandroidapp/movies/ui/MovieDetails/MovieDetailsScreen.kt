@@ -3,13 +3,26 @@ package com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -22,11 +35,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.cursokotlin.moviesandroidapp.R
 import com.cursokotlin.moviesandroidapp.movies.data.Genre
@@ -34,65 +47,28 @@ import com.cursokotlin.moviesandroidapp.movies.ui.model.MovieModel
 import kotlin.math.truncate
 
 @Composable
-fun MovieDetailsScreen(movieDetailsViewModel: MovieDetailsViewModel) {
+fun MovieDetailsScreen(
+    movieDetailsViewModel: MovieDetailsViewModel
+) {
     val isLoading: Boolean by movieDetailsViewModel.isLoading.observeAsState(initial = false)
     val movie by movieDetailsViewModel.movie.observeAsState()
-    val movieId: String by movieDetailsViewModel.movieId.observeAsState(initial = "")
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (isLoading) {
-            CircularProgressIndicator()
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+            )
         } else {
-            if (movie == null) {
-                TextField(
-                    value = movieId.toString(),
-                    onValueChange = { id -> movieDetailsViewModel.onTextChange(id) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                )
-                Button(onClick = { movieDetailsViewModel.onMovieSelected() }) {
-                    Text(text = "Get Movie Details")
-                }
-            } else {
+            movie?.let {
                 MovieDetails(movie!!)
             }
         }
     }
 }
-
-@Preview
-@Composable
-fun MovieDetailsPreview() {
-
-    Column(
-        Modifier
-            .fillMaxSize()
-    ) {
-        MovieDetails(
-            movie = MovieModel(
-                550,
-                "Fight Club",
-                "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.",
-                71.12,
-                8.72,
-                "1999-10-15",
-                "/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
-                "/hZkgoQYus5vegHoetLkCJzb17zJ.jpg",
-                listOf(
-                    Genre(1, "Horror"),
-                    Genre(2, "Thriller"),
-                    Genre(2, "Thriller"),
-                    Genre(2, "Thriller"),
-                    Genre(2, "Thriller"),
-                    Genre(2, "Thriller")
-                )
-            )
-        )
-    }
-}
-
 
 @Composable
 fun MovieDetails(movie: MovieModel) {
@@ -131,7 +107,7 @@ fun MovieDetails(movie: MovieModel) {
                         .fillMaxWidth()
                         .height(230.dp)
                         .padding(horizontal = 20.dp)
-                        .offset(y = (-70).dp),
+                        .offset(y = (-60).dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
@@ -156,9 +132,9 @@ fun Overview(movie: MovieModel) {
         Modifier
             .fillMaxWidth()
             .padding(horizontal = 25.dp)
-            .offset(y = (-40).dp)
+            .offset(y = (-20).dp)
     ) {
-        Text(text = "Storyline", fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
+        Text(text = "Overview", fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
         Spacer(modifier = Modifier.padding(4.dp))
         Text(text = movie.overview, textAlign = TextAlign.Justify)
     }
@@ -231,3 +207,4 @@ fun debugPlaceholder(@DrawableRes debugPreview: Int) =
     } else {
         null
     }
+
