@@ -1,8 +1,7 @@
-package com.cursokotlin.moviesandroidapp.movies.ui.PopularMovies
+package com.cursokotlin.moviesandroidapp.movies.ui.Trending
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

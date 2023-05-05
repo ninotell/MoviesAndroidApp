@@ -1,9 +1,10 @@
-package com.cursokotlin.moviesandroidapp.movies.ui.PopularMovies
+package com.cursokotlin.moviesandroidapp.movies.ui.Trending
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -99,8 +100,8 @@ fun TrendingSection(
 ) {
     SectionTitle(title)
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(24.dp),
-        modifier = Modifier.padding(start = 12.dp)
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(horizontal = 12.dp)
     ) {
         items(trendingList, key = { it.id }) {
             TrendingItem(item = it, navController)

@@ -2,7 +2,6 @@ package com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -15,14 +14,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -38,8 +38,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.cursokotlin.moviesandroidapp.R
 import com.cursokotlin.moviesandroidapp.movies.data.Genre
@@ -102,23 +100,24 @@ fun MovieDetails(movie: MovieModel) {
                         contentScale = ContentScale.Crop
                     )
                 }
-                Row(
+                Box(
                     Modifier
                         .fillMaxWidth()
-                        .height(230.dp)
+                        .height(280.dp)
                         .padding(horizontal = 20.dp)
-                        .offset(y = (-60).dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                        .offset(y = (-60).dp)
                 ) {
                     AsyncImage(
                         model = "https://image.tmdb.org/t/p/w500/${movie.posterPath}",
                         placeholder = debugPlaceholder(debugPreview = R.drawable.poster),
                         contentDescription = "poster",
-                        contentScale = ContentScale.FillHeight,
-                        modifier = Modifier.clip(RoundedCornerShape(8.dp))
+//                        contentScale = ContentScale.FillHeight,
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(8.dp))
+                            .height(235.dp)
+                            .align(Alignment.TopStart)
                     )
-                    Details(movie)
+                    Details(movie, Modifier.align(Alignment.BottomEnd))
                 }
                 Overview(movie)
             }
@@ -141,8 +140,14 @@ fun Overview(movie: MovieModel) {
 }
 
 @Composable
-fun Details(movie: MovieModel) {
-    Column(Modifier.padding(start = 20.dp, top = 35.dp)) {
+fun Details(movie: MovieModel, modifier: Modifier) {
+    Column(
+        modifier = modifier
+            .padding(top = 65.dp)
+            .height(200.dp)
+            .width(200.dp),
+        verticalArrangement = Arrangement.Top
+    ) {
         Text(text = movie.title, fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
         Row() {
             for (i in 1..((truncate(movie.voteAverage).toInt()) / 2)) {
@@ -174,8 +179,13 @@ fun Details(movie: MovieModel) {
 
 @Composable
 fun MovieGenres(movie: MovieModel) {
-    Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
-        for (genre in movie.genres) {
+    LazyVerticalGrid(
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        columns = GridCells.Adaptive(70.dp),
+        modifier = Modifier.height(100.dp)
+    ) {
+        items(movie.genres) { genre ->
             Genre(genre)
             Spacer(modifier = Modifier.padding(4.dp))
         }
@@ -191,11 +201,13 @@ fun Genre(genre: Genre) {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = genre.name,
+            text = if (genre.name.length < 10) genre.name else "${genre.name.substring(0,11)}...",
             modifier = Modifier
                 .padding(horizontal = 6.dp),
             color = Color.Black,
-            fontSize = 12.sp
+            fontSize = 12.sp,
+            textAlign = TextAlign.Center,
+            maxLines = 1
         )
     }
 }

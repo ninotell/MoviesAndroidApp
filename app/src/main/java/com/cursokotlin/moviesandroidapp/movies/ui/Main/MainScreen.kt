@@ -8,10 +8,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -20,8 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.cursokotlin.moviesandroidapp.movies.ui.PopularMovies.TrendingViewModel
-import com.cursokotlin.moviesandroidapp.movies.ui.navigation.DetailsNavGraph
+import com.cursokotlin.moviesandroidapp.movies.ui.Trending.TrendingViewModel
 import com.cursokotlin.moviesandroidapp.movies.ui.navigation.HomeNavGraph
 import com.cursokotlin.moviesandroidapp.movies.ui.navigation.HomeNavScreen
 import com.cursokotlin.moviesandroidapp.movies.ui.navigation.HomeNavScreen.*

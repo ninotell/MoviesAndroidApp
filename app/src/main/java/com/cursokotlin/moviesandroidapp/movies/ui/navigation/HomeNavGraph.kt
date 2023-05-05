@@ -1,17 +1,11 @@
 package com.cursokotlin.moviesandroidapp.movies.ui.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -22,8 +16,8 @@ import androidx.navigation.navigation
 import com.cursokotlin.moviesandroidapp.movies.ui.Favorites.FavoritesScreen
 import com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails.MovieDetailsScreen
 import com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails.MovieDetailsViewModel
-import com.cursokotlin.moviesandroidapp.movies.ui.PopularMovies.TrendingScreen
-import com.cursokotlin.moviesandroidapp.movies.ui.PopularMovies.TrendingViewModel
+import com.cursokotlin.moviesandroidapp.movies.ui.Trending.TrendingScreen
+import com.cursokotlin.moviesandroidapp.movies.ui.Trending.TrendingViewModel
 
 @Composable
 fun HomeNavGraph(

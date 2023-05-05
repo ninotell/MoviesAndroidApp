@@ -15,7 +15,7 @@ import com.cursokotlin.moviesandroidapp.movies.ui.Main.MainScreen
 //import androidx.navigation.compose.composable
 //import androidx.navigation.compose.rememberNavController
 //import androidx.navigation.navArgument
-import com.cursokotlin.moviesandroidapp.movies.ui.PopularMovies.TrendingViewModel
+import com.cursokotlin.moviesandroidapp.movies.ui.Trending.TrendingViewModel
 import com.cursokotlin.moviesandroidapp.ui.theme.MoviesAndroidAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,7 +37,6 @@ class MainActivity : ComponentActivity() {
                     trendingViewModel.getTrending()
                     val navController = rememberNavController()
                     MainScreen(navController, trendingViewModel)
-//                    HomeNavGraph(navController = navController, trendingViewModel)
                 }
             }
         }
