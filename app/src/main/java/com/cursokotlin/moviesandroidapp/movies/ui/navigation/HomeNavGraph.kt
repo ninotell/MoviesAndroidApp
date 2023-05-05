@@ -56,22 +56,6 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
             arguments = listOf(
                 navArgument("movieId") { type = NavType.IntType }
             ),
-//            enterTransition = {
-//                fadeIn(
-//                    animationSpec = tween(
-//                        500,
-//                        easing = CubicBezierEasing(0.25f, 0.35f, 0.45f, 1.0f)
-//                    )
-//                )
-//            },
-//            popExitTransition = {
-//                fadeOut(
-//                    animationSpec = tween(
-//                        500,
-//                        easing = CubicBezierEasing(0.25f, 0.35f, 0.45f, 1.0f)
-//                    )
-//                )
-//            },
             content = {
                 val viewModel = hiltViewModel<MovieDetailsViewModel>()
                 MovieDetailsScreen(
