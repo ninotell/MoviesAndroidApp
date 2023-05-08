@@ -3,6 +3,7 @@ package com.cursokotlin.moviesandroidapp.movies.ui.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -68,6 +69,6 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
 }
 
 sealed class HomeNavScreen(val title: String, val route: String, val icon: ImageVector) {
-    object Trending : HomeNavScreen("Home", "trending", Icons.Default.Home)
+    object Trending : HomeNavScreen("Trending", "trending", Icons.Default.List)
     object Favorites : HomeNavScreen("Favorites", "favorites", Icons.Default.Favorite)
 }
