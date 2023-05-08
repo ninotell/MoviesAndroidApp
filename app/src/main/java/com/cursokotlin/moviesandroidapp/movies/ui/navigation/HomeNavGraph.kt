@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.cursokotlin.moviesandroidapp.movies.ui.Favorites.FavoritesScreen
+import com.cursokotlin.moviesandroidapp.movies.ui.Favorites.FavoritesViewModel
 import com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails.MovieDetailsScreen
 import com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails.MovieDetailsViewModel
 import com.cursokotlin.moviesandroidapp.movies.ui.Trending.TrendingScreen
@@ -39,7 +40,8 @@ fun HomeNavGraph(
         composable(
             HomeNavScreen.Favorites.route,
             content = {
-                FavoritesScreen()
+                val favoritesViewModel = hiltViewModel<FavoritesViewModel>()
+                FavoritesScreen(favoritesViewModel)
             }
         )
         detailsNavGraph(navController)

@@ -5,7 +5,7 @@ import com.cursokotlin.moviesandroidapp.movies.data.network.response.TrendingRes
 import javax.inject.Inject
 
 class GetTrendingMoviesUseCase @Inject constructor(private val repository: Repository) {
-    suspend fun invoke(): TrendingResponse? {
+    suspend operator fun invoke(): TrendingResponse? {
         return repository.getTrendingMoviesOnAPI()
     }
 }

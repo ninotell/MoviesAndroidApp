@@ -68,7 +68,7 @@ fun MainBottomNavigationBar(
                 },
                 alwaysShowLabel = false,
                 selectedContentColor = Color.White,
-                unselectedContentColor = Color.LightGray
+                unselectedContentColor = Color.LightGray.copy(0.7f)
             )
         }
     }

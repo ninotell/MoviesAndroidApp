@@ -1,6 +1,7 @@
 package com.cursokotlin.moviesandroidapp.movies.data.network.response
 
 
+import com.cursokotlin.moviesandroidapp.movies.ui.model.MovieModel
 import com.cursokotlin.moviesandroidapp.movies.ui.model.TrendingItemModel
 import com.google.gson.annotations.SerializedName
 
@@ -18,7 +19,7 @@ data class TrendingResponseItem(
     @SerializedName("media_type")
     val mediaType: String,
     @SerializedName("name")
-    val name: String? ,
+    val name: String?,
     @SerializedName("origin_country")
     val originCountry: List<String>,
     @SerializedName("original_language")
@@ -59,7 +60,8 @@ data class TrendingResponseItem(
             this.backdropPath,
             this.genreIds,
             this.releaseDate,
-            this.profilePath
+            this.profilePath,
+            false
         )
     }
 }

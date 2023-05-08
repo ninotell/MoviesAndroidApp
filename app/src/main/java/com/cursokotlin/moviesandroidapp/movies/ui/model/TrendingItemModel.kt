@@ -12,5 +12,20 @@ data class TrendingItemModel(
     val backdropPath: String?,
     val genreIds: List<Int>?,
     val releaseDate: String?,
-    val profilePath: String?
+    val profilePath: String?,
+    var fav: Boolean
+)
+
+fun TrendingItemModel.toMovieModel(): MovieModel {
+    return MovieModel(
+        this.id, //Investigar por qué no funciona id
+        this.originalTitle ?: "",
+        "",
+        0.0,
+        0.0,
+        this.releaseDate ?: "",
+        this.posterPath ?: "",
+        this.backdropPath ?: "",
+        emptyList()
     )
+}

@@ -1,6 +1,7 @@
 package com.cursokotlin.moviesandroidapp
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -10,11 +11,6 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.cursokotlin.moviesandroidapp.movies.ui.Main.MainScreen
-//import androidx.navigation.NavType
-//import androidx.navigation.compose.NavHost
-//import androidx.navigation.compose.composable
-//import androidx.navigation.compose.rememberNavController
-//import androidx.navigation.navArgument
 import com.cursokotlin.moviesandroidapp.movies.ui.Trending.TrendingViewModel
 import com.cursokotlin.moviesandroidapp.ui.theme.MoviesAndroidAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +23,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        trendingViewModel.toastMessage.observeForever {
+            Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+        }
         setContent {
             MoviesAndroidAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -35,6 +34,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     trendingViewModel.getTrending()
+                    trendingViewModel.getFavs()
                     val navController = rememberNavController()
                     MainScreen(navController, trendingViewModel)
                 }
