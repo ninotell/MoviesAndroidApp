@@ -1,5 +1,8 @@
 package com.cursokotlin.moviesandroidapp.movies.ui.model
 
+import android.util.Log
+import com.cursokotlin.moviesandroidapp.util.genreIDListToString
+
 data class TrendingItemModel(
     val id: Int,
     val mediaType: String,
@@ -14,18 +17,18 @@ data class TrendingItemModel(
     val releaseDate: String?,
     val profilePath: String?,
     var fav: Boolean
-)
-
-fun TrendingItemModel.toMovieModel(): MovieModel {
-    return MovieModel(
-        this.id, //Investigar por qué no funciona id
-        this.originalTitle ?: "",
-        "",
-        0.0,
-        0.0,
-        this.releaseDate ?: "",
-        this.posterPath ?: "",
-        this.backdropPath ?: "",
-        emptyList()
-    )
+) {
+    fun toFavoriteData(): FavoriteModel {
+        Log.d("TEST", this.toString())
+        return FavoriteModel(
+            this.id,
+            this.mediaType,
+            this.originalTitle,
+            this.originalName,
+            this.posterPath,
+            this.profilePath,
+            this.releaseDate,
+            this.genreIds?.let { genreIDListToString(it) } ?: "",
+        )
+    }
 }

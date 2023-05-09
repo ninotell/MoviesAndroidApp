@@ -1,18 +1,19 @@
 package com.cursokotlin.moviesandroidapp.movies.data
 
-import com.cursokotlin.moviesandroidapp.movies.data.database.MovieDao
-import com.cursokotlin.moviesandroidapp.movies.data.database.MovieEntity
+import android.util.Log
+import com.cursokotlin.moviesandroidapp.movies.data.database.FavoriteDao
+import com.cursokotlin.moviesandroidapp.movies.data.database.FavoriteEntity
 import com.cursokotlin.moviesandroidapp.movies.data.network.ApiService
 import com.cursokotlin.moviesandroidapp.movies.data.network.response.MovieDetailsResponse
 import com.cursokotlin.moviesandroidapp.movies.data.network.response.TrendingResponse
-import com.cursokotlin.moviesandroidapp.movies.ui.model.MovieModel
+import com.cursokotlin.moviesandroidapp.movies.ui.model.FavoriteModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class Repository @Inject constructor(
     private val apiService: ApiService,
-    private val movieDao: MovieDao
+    private val favoriteDao: FavoriteDao
 ) {
 
     //Encargado de consultar donde requiera (API, db, etc)
@@ -32,43 +33,41 @@ class Repository @Inject constructor(
         return apiService.getTrendingPerson()
     }
 
-    val favMovies: Flow<List<MovieModel>> = movieDao.getMovies().map { items ->
+    val favMovies: Flow<List<FavoriteModel>> = favoriteDao.getFavorites().map { items ->
         items.map {
-            MovieModel(
+            FavoriteModel(
                 it.id,
+                it.media_type,
                 it.title,
-                it.overview,
-                it.popularity,
-                it.voteAverage,
-                it.releaseDate,
+                it.name,
                 it.posterPath,
-                it.backdropPath,
-                emptyList()
-//                it.genres
+                it.profilePath,
+                it.releaseDate,
+                it.genres
             )
         }
     }
 
-    suspend fun addFavMovie(movieModel: MovieModel) {
-        movieDao.addMovie(movieModel.toData())
+    suspend fun addFavItem(favoriteModel: FavoriteModel) {
+        Log.d("MovieModel", favoriteModel.toString())
+        favoriteDao.addFavorite(favoriteModel.toData())
     }
 
-    suspend fun deleteFavMovie(movieModel: MovieModel){
-        movieDao.deleteFavMovie(movieModel.toData())
+    suspend fun deleteFavItem(favoriteModel: FavoriteModel) {
+        favoriteDao.deleteFavorite(favoriteModel.toData())
     }
 
 }
 
-fun MovieModel.toData(): MovieEntity {
-    return MovieEntity(
+fun FavoriteModel.toData(): FavoriteEntity {
+    return FavoriteEntity(
         this.id,
-        this.title,
-        this.overview,
-        this.popularity,
-        this.voteAverage,
-        this.releaseDate,
-        this.posterPath,
-        this.backdropPath,
-//        this.genres
+        this.mediaType,
+        this.title ?: "",
+        this.name ?: "",
+        this.posterPath ?: "",
+        this.profilePath ?: "",
+        this.releaseDate ?: "",
+        this.genres ?: ""
     )
 }

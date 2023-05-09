@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,6 +19,8 @@ import com.cursokotlin.moviesandroidapp.movies.ui.Favorites.FavoritesScreen
 import com.cursokotlin.moviesandroidapp.movies.ui.Favorites.FavoritesViewModel
 import com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails.MovieDetailsScreen
 import com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails.MovieDetailsViewModel
+import com.cursokotlin.moviesandroidapp.movies.ui.Search.SearchScreen
+import com.cursokotlin.moviesandroidapp.movies.ui.Search.SearchViewModel
 import com.cursokotlin.moviesandroidapp.movies.ui.Trending.TrendingScreen
 import com.cursokotlin.moviesandroidapp.movies.ui.Trending.TrendingViewModel
 
@@ -36,6 +39,14 @@ fun HomeNavGraph(
                 TrendingScreen(
                     trendingViewModel,
                     navController
+                )
+            })
+        composable(
+            HomeNavScreen.Search.route,
+            content = {
+                val searchViewModel = hiltViewModel<SearchViewModel>()
+                SearchScreen(
+                    searchViewModel
                 )
             })
         composable(
@@ -70,5 +81,6 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
 
 sealed class HomeNavScreen(val title: String, val route: String, val icon: ImageVector) {
     object Trending : HomeNavScreen("Trending", "trending", Icons.Default.List)
+    object Search : HomeNavScreen("Search", "search", Icons.Default.Search)
     object Favorites : HomeNavScreen("Favorites", "favorites", Icons.Default.Favorite)
 }

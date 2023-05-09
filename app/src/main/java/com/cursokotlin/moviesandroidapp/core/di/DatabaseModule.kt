@@ -2,7 +2,7 @@ package com.cursokotlin.moviesandroidapp.core.di
 
 import android.content.Context
 import androidx.room.Room
-import com.cursokotlin.moviesandroidapp.movies.data.database.MovieDao
+import com.cursokotlin.moviesandroidapp.movies.data.database.FavoriteDao
 import com.cursokotlin.moviesandroidapp.movies.data.database.MovieDatabase
 import dagger.Module
 import dagger.Provides
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class DatabaseModule {
     @Provides
-    fun provideMovieDao(movieDatabase: MovieDatabase): MovieDao {
+    fun provideMovieDao(movieDatabase: MovieDatabase): FavoriteDao {
         return movieDatabase.movieDao()
     }
 

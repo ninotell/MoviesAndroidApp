@@ -71,7 +71,7 @@ fun TrendingScreen(trendingViewModel: TrendingViewModel, navController: NavHostC
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color(0xFF1E1E1E))
+//            .background(Color(0xFF1E1E1E))
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -178,9 +178,9 @@ fun TrendingItem(
                     ),
                 contentScale = ContentScale.FillWidth
             )
-            if (item.mediaType == "movie") {
+//            if (item.mediaType == "movie") {
                 FavIcon(Modifier.align(Alignment.TopEnd), item, trendingViewModel)
-            }
+//            }
         }
         Column(
             Modifier.fillMaxSize(),
@@ -193,12 +193,12 @@ fun TrendingItem(
                 modifier = Modifier.padding(top = 4.dp),
                 maxLines = 2
             )
-//            Text(
-//                text = item.releaseDate?.substring(0, 4) ?: "",
-//                fontSize = 10.sp,
-//                fontWeight = FontWeight.Light,
-//                color = Color.LightGray
-//            )
+            Text(
+                text = item.releaseDate?.substring(0, 4) ?: "",
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Light,
+                color = Color.LightGray
+            )
         }
     }
 }

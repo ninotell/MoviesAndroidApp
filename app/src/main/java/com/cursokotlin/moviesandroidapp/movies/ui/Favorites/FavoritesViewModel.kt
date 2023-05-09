@@ -11,7 +11,9 @@ import androidx.lifecycle.viewModelScope
 import com.cursokotlin.moviesandroidapp.movies.domain.DeleteFavMovieUseCase
 import com.cursokotlin.moviesandroidapp.movies.domain.GetFavMoviesUseCase
 import com.cursokotlin.moviesandroidapp.movies.ui.Favorites.FavoritesUIState.*
+import com.cursokotlin.moviesandroidapp.movies.ui.model.FavoriteModel
 import com.cursokotlin.moviesandroidapp.movies.ui.model.MovieModel
+import com.cursokotlin.moviesandroidapp.movies.ui.model.TrendingItemModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -38,26 +40,27 @@ class FavoritesViewModel @Inject constructor(
             Loading //Estado inicial en Loading
         )
 
-    val mapFavsVisibility = mutableMapOf<MovieModel, Boolean>()
+    val mapFavsVisibility = mutableMapOf<FavoriteModel, Boolean>()
 
     init {
         Log.d("FavoritesViewModel", "Init")
         viewModelScope.launch {
-            getFavMoviesUseCase().collect { favMoviesFromDB ->
-                favMoviesFromDB.forEach { movie ->
-                    mapFavsVisibility[movie] = true
+            getFavMoviesUseCase().collect { favoritesFromDB ->
+                favoritesFromDB.forEach { item ->
+                    Log.d("favoriteItemDB: ", item.toString())
+                    mapFavsVisibility[item] = true
                 }
             }
         }
     }
 
-    fun onFavButtonSelected(movieModel: MovieModel) {
+    fun onFavButtonSelected(favoriteModel: FavoriteModel) {
         viewModelScope.launch {
-            deleteFavMovieUseCase(movieModel)
+            deleteFavMovieUseCase(favoriteModel)
         }
-        mapFavsVisibility[movieModel] = false
+        mapFavsVisibility[favoriteModel] = false
         mapFavsVisibility.forEach {
-            Log.d("FavoritesViewModel", "${it.key.id}: ${it.value}")
+            Log.d("FavoritesViewModel", "${it.key}: ${it.value}")
         }
     }
 

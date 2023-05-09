@@ -3,6 +3,7 @@ package com.cursokotlin.moviesandroidapp.movies.ui.Favorites
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -37,11 +39,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import coil.compose.AsyncImage
+import com.cursokotlin.moviesandroidapp.movies.ui.model.FavoriteModel
 import com.cursokotlin.moviesandroidapp.movies.ui.model.MovieModel
 
 @Composable
@@ -79,7 +83,7 @@ fun FavoritesScreen(favoritesViewModel: FavoritesViewModel) {
                 if (favorites.isEmpty()) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
-                        text = "No movies in favorites, check trending section",
+                        text = "No elements in favorites",
                         color = Color.LightGray.copy(0.6f),
                         textAlign = TextAlign.Center
                     )
@@ -91,23 +95,49 @@ fun FavoritesScreen(favoritesViewModel: FavoritesViewModel) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MoviesList(
-    favoritesMap: MutableMap<MovieModel, Boolean>,
+    favoritesMap: MutableMap<FavoriteModel, Boolean>,
     favoritesViewModel: FavoritesViewModel,
     modifier: Modifier
 ) {
+    val favoritesList = favoritesMap.map { it.key }
+    val favoritesTypeMap: Map<String, List<FavoriteModel>> = favoritesList.groupBy { it.mediaType }
+
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(bottom = 70.dp, top = 12.dp, start = 12.dp, end = 12.dp)
     ) {
-        items(favoritesMap.map { it.key }, key = { it.id }) { item ->
-            val isVisible = favoritesMap[item] ?: true
-            AnimatedVisibility(
-                visible = isVisible,
-                exit = shrinkVertically(tween(500))
-            ) {
-                FavItem(item, favoritesViewModel)
+        favoritesTypeMap.forEach { (type, favoriteTypeList) ->
+            stickyHeader {
+                Column(
+                    Modifier
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "${type[0].uppercase()}${type.substring(1, type.length)}",
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(bottomEnd = 8.dp, bottomStart = 8.dp))
+                            .fillMaxWidth()
+                            .background(Color(0xFF1E1E1E))
+                            .padding(vertical = 8.dp),
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        fontSize = 18.sp
+                    )
+                    Spacer(modifier = Modifier.padding(4.dp))
+                }
+            }
+            items(favoriteTypeList, key = { it.id }) { item ->
+                val isVisible = favoritesMap[item] ?: true
+                AnimatedVisibility(
+                    visible = isVisible,
+                    exit = shrinkVertically(tween(500))
+                ) {
+                    FavItem(item, favoritesViewModel)
+                }
             }
         }
     }
@@ -115,9 +145,13 @@ fun MoviesList(
 
 @Composable
 fun FavItem(
-    item: MovieModel,
+    item: FavoriteModel,
     favoritesViewModel: FavoritesViewModel
 ) {
+    var imageUrl = "https://image.tmdb.org/t/p/w500/"
+    imageUrl += if (!item.posterPath.isNullOrBlank()) item.posterPath
+    else item.profilePath
+
     Column(Modifier.fillMaxWidth()) {
         Row(
             Modifier
@@ -127,7 +161,7 @@ fun FavItem(
                 .background(Color.LightGray.copy(0.15f))
         ) {
             AsyncImage(
-                model = "https://image.tmdb.org/t/p/w500/${item.posterPath}",
+                model = imageUrl,
                 contentDescription = "poster",
                 contentScale = ContentScale.FillHeight,
                 modifier = Modifier
@@ -140,7 +174,7 @@ fun FavItem(
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
-                    text = item.title,
+                    text = if (!item.title.isNullOrBlank()) item.title else item.name ?: "",
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 20.sp,
                     textAlign = TextAlign.Start,
@@ -160,7 +194,7 @@ fun FavItem(
 }
 
 @Composable
-fun DeleteIcon(modifier: Modifier, item: MovieModel, favoritesViewModel: FavoritesViewModel) {
+fun DeleteIcon(modifier: Modifier, item: FavoriteModel, favoritesViewModel: FavoritesViewModel) {
     Box(
         modifier = modifier
             .padding(6.dp)
@@ -173,8 +207,7 @@ fun DeleteIcon(modifier: Modifier, item: MovieModel, favoritesViewModel: Favorit
         Icon(
             imageVector = Icons.Default.Clear,
             contentDescription = "favicon",
-            modifier = Modifier.align(Alignment.Center),
-            tint = if (item.fav) Color(0xFFFB3232) else Color.LightGray
+            modifier = Modifier.align(Alignment.Center)
         )
     }
 }

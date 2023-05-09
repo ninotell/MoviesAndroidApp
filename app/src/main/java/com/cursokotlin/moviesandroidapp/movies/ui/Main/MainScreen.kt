@@ -26,6 +26,7 @@ import com.cursokotlin.moviesandroidapp.movies.ui.navigation.HomeNavScreen.*
 fun MainScreen(navController: NavHostController, trendingViewModel: TrendingViewModel) {
     val items = listOf(
         Trending,
+        Search,
         Favorites
     )
     Scaffold(
