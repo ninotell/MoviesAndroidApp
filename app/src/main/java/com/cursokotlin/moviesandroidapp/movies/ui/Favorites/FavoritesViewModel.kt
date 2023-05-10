@@ -42,6 +42,12 @@ class FavoritesViewModel @Inject constructor(
 
     val mapFavsVisibility = mutableMapOf<FavoriteModel, Boolean>()
 
+    val mapTypesTitles : Map<String, String> = mapOf(
+        "movie" to "Movies",
+        "tv" to "TV Shows",
+        "person" to "People"
+    )
+
     init {
         Log.d("FavoritesViewModel", "Init")
         viewModelScope.launch {

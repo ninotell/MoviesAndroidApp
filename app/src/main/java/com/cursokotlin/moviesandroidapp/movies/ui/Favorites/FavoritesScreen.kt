@@ -107,7 +107,7 @@ fun MoviesList(
 
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(bottom = 70.dp, top = 12.dp, start = 12.dp, end = 12.dp)
+        contentPadding = PaddingValues(bottom = 70.dp/*, top = 12.dp, start = 12.dp, end = 12.dp */)
     ) {
         favoritesTypeMap.forEach { (type, favoriteTypeList) ->
             stickyHeader {
@@ -117,14 +117,14 @@ fun MoviesList(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "${type[0].uppercase()}${type.substring(1, type.length)}",
+                        text = favoritesViewModel.mapTypesTitles[type] ?: "",
                         modifier = Modifier
                             .clip(RoundedCornerShape(bottomEnd = 8.dp, bottomStart = 8.dp))
                             .fillMaxWidth()
                             .background(Color(0xFF1E1E1E))
-                            .padding(vertical = 8.dp),
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
                         color = Color.White,
-                        textAlign = TextAlign.Center,
+                        textAlign = TextAlign.Start,
                         fontSize = 18.sp
                     )
                     Spacer(modifier = Modifier.padding(4.dp))
@@ -136,7 +136,9 @@ fun MoviesList(
                     visible = isVisible,
                     exit = shrinkVertically(tween(500))
                 ) {
-                    FavItem(item, favoritesViewModel)
+                    Box(modifier = Modifier.padding(horizontal = 12.dp)) {
+                        FavItem(item, favoritesViewModel)
+                    }
                 }
             }
         }

@@ -2,6 +2,7 @@ package com.cursokotlin.moviesandroidapp.movies.ui.Trending
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,34 +17,32 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.cursokotlin.moviesandroidapp.R
 import com.cursokotlin.moviesandroidapp.movies.ui.model.TrendingItemModel
 import com.cursokotlin.moviesandroidapp.movies.ui.navigation.DetailsNavGraph
 
@@ -55,18 +54,6 @@ fun TrendingScreen(trendingViewModel: TrendingViewModel, navController: NavHostC
     val trendingMovies: List<TrendingItemModel> = trendingViewModel.trendingMovies
     val trendingTVShows = trendingViewModel.trendingTVShows
     val trendingPeople = trendingViewModel.trendingPeople
-
-//    val lifecycle = LocalLifecycleOwner.current.lifecycle
-//
-//    val uiState by produceState<TrendingUIState>(
-//        initialValue = TrendingUIState.Loading,
-//        key1 = lifecycle,
-//        key2 = trendingViewModel
-//    ) {
-//        lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
-//            trendingViewModel.uiState.collect { value = it }
-//        }
-//    }
 
     Column(
         Modifier
@@ -155,35 +142,61 @@ fun TrendingItem(
     Column(
         Modifier
             .width(130.dp)
-            .height(250.dp)
+            .height(280.dp)
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(12.dp))
                 .fillMaxWidth()
+                .weight(4f)
         ) {
             AsyncImage(
                 alpha = 0.8f,
                 model = "https://image.tmdb.org/t/p/w500/${item.posterPath ?: item.profilePath}",
                 contentDescription = "background",
                 modifier = Modifier
+//                    .align(Alignment.BottomCenter)
+                    .weight(7f)
                     .then(
                         if (item.mediaType == "movie") {
-                            Modifier.clickable {
-                                navController.navigate(DetailsNavGraph.MovieDetails.createRoute(item.id))
-                            }
+                            Modifier
+                                .pointerInput(Unit) {
+                                    detectTapGestures(onDoubleTap = {
+                                        trendingViewModel.onFavButtonSelected(item)
+                                    },
+                                        onTap = {
+                                            navController.navigate(
+                                                DetailsNavGraph.MovieDetails.createRoute(
+                                                    item.id
+                                                )
+                                            ) {
+                                                launchSingleTop = true
+                                            }
+                                        })
+                                }
                         } else {
                             Modifier
+                                .pointerInput(Unit) {
+                                    detectTapGestures(onDoubleTap = {
+                                        trendingViewModel.onFavButtonSelected(item)
+                                    })
+                                }
                         }
                     ),
-                contentScale = ContentScale.FillWidth
+                contentScale = ContentScale.FillHeight
             )
-//            if (item.mediaType == "movie") {
-                FavIcon(Modifier.align(Alignment.TopEnd), item, trendingViewModel)
-//            }
+            FavIcon(
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                item,
+                trendingViewModel
+            )
         }
         Column(
-            Modifier.fillMaxSize(),
+            Modifier
+                .fillMaxWidth()
+                .weight(1f),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
@@ -207,18 +220,17 @@ fun TrendingItem(
 fun FavIcon(modifier: Modifier, item: TrendingItemModel, trendingViewModel: TrendingViewModel) {
     Box(
         modifier = modifier
-            .padding(6.dp)
-            .clip(CircleShape)
-            .size(30.dp)
             .background(Color.LightGray.copy(0.4f))
             .clickable { trendingViewModel.onFavButtonSelected(item) },
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            imageVector = Icons.Default.Favorite,
+            painterResource(id = R.drawable.ic_star_filled),
             contentDescription = "favicon",
-            modifier = Modifier.align(Alignment.Center),
-            tint = if (item.fav) Color(0xFFFB3232) else Color.LightGray
+            modifier = Modifier
+                .align(Alignment.Center)
+                .size(20.dp),
+            tint = if (item.fav) Color(0xFFF3CF39) else MaterialTheme.colors.background
         )
     }
 }
