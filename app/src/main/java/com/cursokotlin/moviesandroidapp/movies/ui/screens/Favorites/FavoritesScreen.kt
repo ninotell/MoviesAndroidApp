@@ -1,4 +1,4 @@
-package com.cursokotlin.moviesandroidapp.movies.ui.Favorites
+package com.cursokotlin.moviesandroidapp.movies.ui.screens.Favorites
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -39,14 +38,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import coil.compose.AsyncImage
 import com.cursokotlin.moviesandroidapp.movies.ui.model.FavoriteModel
-import com.cursokotlin.moviesandroidapp.movies.ui.model.MovieModel
+import com.cursokotlin.moviesandroidapp.util.mapTypesTitles
 
 @Composable
 fun FavoritesScreen(favoritesViewModel: FavoritesViewModel) {
@@ -117,7 +115,7 @@ fun MoviesList(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = favoritesViewModel.mapTypesTitles[type] ?: "",
+                        text = mapTypesTitles[type] ?: "",
                         modifier = Modifier
                             .clip(RoundedCornerShape(bottomEnd = 8.dp, bottomStart = 8.dp))
                             .fillMaxWidth()

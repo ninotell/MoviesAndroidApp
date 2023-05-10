@@ -1,6 +1,7 @@
 package com.cursokotlin.moviesandroidapp.movies.data.network.response
 
 
+import com.cursokotlin.moviesandroidapp.movies.ui.model.MultiSearchItemModel
 import com.google.gson.annotations.SerializedName
 
 data class MultiSearchResponseItem(
@@ -50,4 +51,21 @@ data class MultiSearchResponseItem(
     val voteAverage: Double,
     @SerializedName("vote_count")
     val voteCount: Int
-)
+) {
+    fun toUIModel(): MultiSearchItemModel {
+        return MultiSearchItemModel(
+            this.id,
+            this.mediaType,
+            this.adult,
+            this.name,
+            this.originalName,
+            this.title,
+            this.originalTitle,
+            this.posterPath,
+            this.backdropPath,
+            this.genreIds,
+            this.releaseDate,
+            this.profilePath
+        )
+    }
+}

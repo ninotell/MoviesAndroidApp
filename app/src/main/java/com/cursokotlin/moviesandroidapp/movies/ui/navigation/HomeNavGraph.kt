@@ -2,7 +2,6 @@ package com.cursokotlin.moviesandroidapp.movies.ui.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
@@ -15,14 +14,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.cursokotlin.moviesandroidapp.movies.ui.Favorites.FavoritesScreen
-import com.cursokotlin.moviesandroidapp.movies.ui.Favorites.FavoritesViewModel
-import com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails.MovieDetailsScreen
-import com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails.MovieDetailsViewModel
-import com.cursokotlin.moviesandroidapp.movies.ui.Search.SearchScreen
-import com.cursokotlin.moviesandroidapp.movies.ui.Search.SearchViewModel
-import com.cursokotlin.moviesandroidapp.movies.ui.Trending.TrendingScreen
-import com.cursokotlin.moviesandroidapp.movies.ui.Trending.TrendingViewModel
+import com.cursokotlin.moviesandroidapp.movies.ui.screens.Favorites.FavoritesScreen
+import com.cursokotlin.moviesandroidapp.movies.ui.screens.Favorites.FavoritesViewModel
+import com.cursokotlin.moviesandroidapp.movies.ui.screens.MovieDetails.MovieDetailsScreen
+import com.cursokotlin.moviesandroidapp.movies.ui.screens.MovieDetails.MovieDetailsViewModel
+import com.cursokotlin.moviesandroidapp.movies.ui.screens.Search.SearchScreen
+import com.cursokotlin.moviesandroidapp.movies.ui.screens.Search.SearchViewModel
+import com.cursokotlin.moviesandroidapp.movies.ui.screens.Trending.TrendingScreen
+import com.cursokotlin.moviesandroidapp.movies.ui.screens.Trending.TrendingViewModel
 
 @Composable
 fun HomeNavGraph(

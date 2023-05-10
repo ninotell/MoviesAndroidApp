@@ -6,6 +6,7 @@ import com.cursokotlin.moviesandroidapp.movies.data.network.response.TrendingRes
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiClient {
     @GET("/3/movie/{movie_id}")
@@ -20,9 +21,9 @@ interface ApiClient {
     @GET("/3/trending/person/week")
     suspend fun getTrendingPeople(): Response<TrendingResponse>
 
-    @GET("/3/search/multi?language=en-US&query={query}&page={page}&include_adult=false")
+    //Solo se muestra pagina 1. Revisar para proximas versiones
+    @GET("/3/search/multi?language=en-US&page=1&include_adult=false")
     suspend fun multiSearch(
-        @Path(value = "query") query: String,
-        @Path("page") page: Int
+        @Query("query") query: String
     ): Response<MultiSearchResponse>
 }

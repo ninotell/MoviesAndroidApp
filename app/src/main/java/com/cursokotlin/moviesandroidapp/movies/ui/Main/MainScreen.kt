@@ -16,10 +16,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.cursokotlin.moviesandroidapp.movies.ui.Trending.TrendingViewModel
+import com.cursokotlin.moviesandroidapp.movies.ui.screens.Trending.TrendingViewModel
 import com.cursokotlin.moviesandroidapp.movies.ui.navigation.HomeNavGraph
 import com.cursokotlin.moviesandroidapp.movies.ui.navigation.HomeNavScreen
 import com.cursokotlin.moviesandroidapp.movies.ui.navigation.HomeNavScreen.*
+import com.cursokotlin.moviesandroidapp.ui.theme.CustomYellow
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -68,7 +69,7 @@ fun MainBottomNavigationBar(
                     }
                 },
                 alwaysShowLabel = false,
-                selectedContentColor = Color.White,
+                selectedContentColor = CustomYellow,
                 unselectedContentColor = Color.LightGray.copy(0.7f)
             )
         }

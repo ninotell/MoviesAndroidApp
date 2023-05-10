@@ -5,6 +5,7 @@ import com.cursokotlin.moviesandroidapp.movies.data.database.FavoriteDao
 import com.cursokotlin.moviesandroidapp.movies.data.database.FavoriteEntity
 import com.cursokotlin.moviesandroidapp.movies.data.network.ApiService
 import com.cursokotlin.moviesandroidapp.movies.data.network.response.MovieDetailsResponse
+import com.cursokotlin.moviesandroidapp.movies.data.network.response.MultiSearchResponse
 import com.cursokotlin.moviesandroidapp.movies.data.network.response.TrendingResponse
 import com.cursokotlin.moviesandroidapp.movies.ui.model.FavoriteModel
 import kotlinx.coroutines.flow.Flow
@@ -55,6 +56,10 @@ class Repository @Inject constructor(
 
     suspend fun deleteFavItem(favoriteModel: FavoriteModel) {
         favoriteDao.deleteFavorite(favoriteModel.toData())
+    }
+
+    suspend fun multiSearchOnAPI(query: String): MultiSearchResponse? {
+        return apiService.multiSearch(query)
     }
 
 }

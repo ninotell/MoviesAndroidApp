@@ -1,10 +1,7 @@
 package com.cursokotlin.moviesandroidapp.core.di
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.ViewModelProvider
 import com.cursokotlin.moviesandroidapp.movies.data.network.ApiClient
-import com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails.MovieDetailsViewModel
 import com.cursokotlin.moviesandroidapp.util.Constants
 import com.cursokotlin.moviesandroidapp.util.Constants.Companion.API_KEY
 import dagger.Module

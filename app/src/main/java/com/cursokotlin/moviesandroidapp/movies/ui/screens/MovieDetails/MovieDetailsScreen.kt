@@ -1,4 +1,4 @@
-package com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails
+package com.cursokotlin.moviesandroidapp.movies.ui.screens.MovieDetails
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
@@ -42,6 +42,7 @@ import coil.compose.AsyncImage
 import com.cursokotlin.moviesandroidapp.R
 import com.cursokotlin.moviesandroidapp.movies.data.Genre
 import com.cursokotlin.moviesandroidapp.movies.ui.model.MovieModel
+import com.cursokotlin.moviesandroidapp.ui.theme.CustomYellow
 import kotlin.math.truncate
 
 @Composable
@@ -157,7 +158,7 @@ fun Details(movie: MovieModel, modifier: Modifier) {
                         .size(24.dp)
                         .padding(end = 5.dp),
                     contentDescription = "star${i}",
-                    tint = Color(0xFFF3CF39)
+                    tint = CustomYellow
                 )
             }
             for (i in 1..(5 - (truncate(movie.voteAverage).toInt()) / 2)) {
@@ -167,7 +168,7 @@ fun Details(movie: MovieModel, modifier: Modifier) {
                         .size(24.dp)
                         .padding(end = 5.dp),
                     contentDescription = "star${i}",
-                    tint = Color(0xFFF3CF39)
+                    tint = CustomYellow
                 )
             }
         }

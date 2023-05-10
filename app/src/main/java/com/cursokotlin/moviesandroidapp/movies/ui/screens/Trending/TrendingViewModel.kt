@@ -1,4 +1,4 @@
-package com.cursokotlin.moviesandroidapp.movies.ui.Trending
+package com.cursokotlin.moviesandroidapp.movies.ui.screens.Trending
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
@@ -12,7 +12,6 @@ import com.cursokotlin.moviesandroidapp.movies.domain.GetTrendingMoviesUseCase
 import com.cursokotlin.moviesandroidapp.movies.domain.GetTrendingPeopleUseCase
 import com.cursokotlin.moviesandroidapp.movies.domain.GetTrendingTVShowsUseCase
 import com.cursokotlin.moviesandroidapp.movies.ui.model.FavoriteModel
-import com.cursokotlin.moviesandroidapp.movies.ui.model.MovieModel
 import com.cursokotlin.moviesandroidapp.movies.ui.model.TrendingItemModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

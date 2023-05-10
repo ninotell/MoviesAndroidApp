@@ -1,30 +1,21 @@
-package com.cursokotlin.moviesandroidapp.movies.ui.Favorites
+package com.cursokotlin.moviesandroidapp.movies.ui.screens.Favorites
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.cursokotlin.moviesandroidapp.movies.domain.DeleteFavMovieUseCase
 import com.cursokotlin.moviesandroidapp.movies.domain.GetFavMoviesUseCase
-import com.cursokotlin.moviesandroidapp.movies.ui.Favorites.FavoritesUIState.*
 import com.cursokotlin.moviesandroidapp.movies.ui.model.FavoriteModel
-import com.cursokotlin.moviesandroidapp.movies.ui.model.MovieModel
-import com.cursokotlin.moviesandroidapp.movies.ui.model.TrendingItemModel
+import com.cursokotlin.moviesandroidapp.movies.ui.screens.Favorites.FavoritesUIState.Loading
+import com.cursokotlin.moviesandroidapp.movies.ui.screens.Favorites.FavoritesUIState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.Error
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
@@ -41,12 +32,6 @@ class FavoritesViewModel @Inject constructor(
         )
 
     val mapFavsVisibility = mutableMapOf<FavoriteModel, Boolean>()
-
-    val mapTypesTitles : Map<String, String> = mapOf(
-        "movie" to "Movies",
-        "tv" to "TV Shows",
-        "person" to "People"
-    )
 
     init {
         Log.d("FavoritesViewModel", "Init")

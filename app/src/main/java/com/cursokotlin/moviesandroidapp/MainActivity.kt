@@ -11,7 +11,7 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.cursokotlin.moviesandroidapp.movies.ui.Main.MainScreen
-import com.cursokotlin.moviesandroidapp.movies.ui.Trending.TrendingViewModel
+import com.cursokotlin.moviesandroidapp.movies.ui.screens.Trending.TrendingViewModel
 import com.cursokotlin.moviesandroidapp.ui.theme.MoviesAndroidAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 

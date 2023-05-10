@@ -1,4 +1,4 @@
-package com.cursokotlin.moviesandroidapp.movies.ui.Favorites
+package com.cursokotlin.moviesandroidapp.movies.ui.screens.Favorites
 
 import com.cursokotlin.moviesandroidapp.movies.ui.model.FavoriteModel
 

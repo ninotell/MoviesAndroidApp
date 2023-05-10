@@ -1,4 +1,4 @@
-package com.cursokotlin.moviesandroidapp.movies.ui.Trending
+package com.cursokotlin.moviesandroidapp.movies.ui.screens.Trending
 
 import com.cursokotlin.moviesandroidapp.movies.ui.model.MovieModel
 

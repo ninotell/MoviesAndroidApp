@@ -18,3 +18,8 @@ fun genreIDListToString(genres: List<Int>): String {
     return genresString
 }
 
+val mapTypesTitles : Map<String, String> = mapOf(
+    "movie" to "Movies",
+    "tv" to "TV Shows",
+    "person" to "People"
+)

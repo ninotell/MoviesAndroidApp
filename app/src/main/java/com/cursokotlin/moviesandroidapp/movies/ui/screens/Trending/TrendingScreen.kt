@@ -1,4 +1,4 @@
-package com.cursokotlin.moviesandroidapp.movies.ui.Trending
+package com.cursokotlin.moviesandroidapp.movies.ui.screens.Trending
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,8 +23,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -45,6 +43,7 @@ import coil.compose.AsyncImage
 import com.cursokotlin.moviesandroidapp.R
 import com.cursokotlin.moviesandroidapp.movies.ui.model.TrendingItemModel
 import com.cursokotlin.moviesandroidapp.movies.ui.navigation.DetailsNavGraph
+import com.cursokotlin.moviesandroidapp.ui.theme.CustomYellow
 
 
 @Composable
@@ -230,7 +229,7 @@ fun FavIcon(modifier: Modifier, item: TrendingItemModel, trendingViewModel: Tren
             modifier = Modifier
                 .align(Alignment.Center)
                 .size(20.dp),
-            tint = if (item.fav) Color(0xFFF3CF39) else MaterialTheme.colors.background
+            tint = if (item.fav) CustomYellow else MaterialTheme.colors.background
         )
     }
 }

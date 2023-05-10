@@ -1,8 +1,5 @@
-package com.cursokotlin.moviesandroidapp.movies.ui.MovieDetails
+package com.cursokotlin.moviesandroidapp.movies.ui.screens.MovieDetails
 
-import android.util.Log
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -10,8 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cursokotlin.moviesandroidapp.movies.domain.GetMovieDetailsUseCase
 import com.cursokotlin.moviesandroidapp.movies.ui.model.MovieModel
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
