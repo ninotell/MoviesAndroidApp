@@ -3,6 +3,7 @@
 
     <style name="Theme.MoviesAndroidApp" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/black</item>
+        <item name="android:navigationBarColor">@color/black</item>
     </style>
     <style name="ThemeOverlay.MoviesAndroidApp.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>

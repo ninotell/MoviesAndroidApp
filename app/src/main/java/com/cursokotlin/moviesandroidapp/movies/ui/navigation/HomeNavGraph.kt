@@ -45,6 +45,7 @@ fun HomeNavGraph(
             content = {
                 val searchViewModel = hiltViewModel<SearchViewModel>()
                 SearchScreen(
+                    navController,
                     searchViewModel
                 )
             })

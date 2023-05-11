@@ -3,6 +3,7 @@ package com.cursokotlin.moviesandroidapp.movies.ui.screens.Search
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,14 +32,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.cursokotlin.moviesandroidapp.R
 import com.cursokotlin.moviesandroidapp.movies.ui.model.MultiSearchItemModel
+import com.cursokotlin.moviesandroidapp.movies.ui.navigation.DetailsNavGraph
 import com.cursokotlin.moviesandroidapp.ui.theme.CustomYellow
 import com.cursokotlin.moviesandroidapp.util.mapTypesTitles
 
 @Composable
-fun SearchScreen(searchViewModel: SearchViewModel) {
+fun SearchScreen(navController: NavHostController, searchViewModel: SearchViewModel) {
     val resultList = searchViewModel.resultsList
     val query = searchViewModel.query.observeAsState(initial = "")
     Column(Modifier.fillMaxSize()) {
@@ -82,7 +85,7 @@ fun SearchScreen(searchViewModel: SearchViewModel) {
                 }
             }
         } else {
-            ResultList(resultList)
+            ResultList(resultList, navController)
         }
         Spacer(modifier = Modifier.padding(48.dp))
     }
@@ -90,7 +93,7 @@ fun SearchScreen(searchViewModel: SearchViewModel) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ResultList(resultList: List<MultiSearchItemModel>) {
+fun ResultList(resultList: List<MultiSearchItemModel>, navController: NavHostController) {
     val favoritesTypeMap: Map<String, List<MultiSearchItemModel>> =
         resultList.groupBy { it.mediaType }
     LazyColumn(
@@ -122,14 +125,14 @@ fun ResultList(resultList: List<MultiSearchItemModel>) {
                 }
             }
             items(resultsByTypeList.sortedBy { it.releaseDate }, key = { it.id }) {
-                SearchResultItem(it)
+                SearchResultItem(it, navController)
             }
         }
     }
 }
 
 @Composable
-fun SearchResultItem(item: MultiSearchItemModel) {
+fun SearchResultItem(item: MultiSearchItemModel, navController: NavHostController) {
     val imageUrl = if (!item.posterPath.isNullOrBlank()) item.posterPath
     else item.profilePath
 
@@ -140,6 +143,15 @@ fun SearchResultItem(item: MultiSearchItemModel) {
         Modifier
             .clip(RoundedCornerShape(8.dp))
             .fillMaxWidth()
+            .then(if (item.mediaType == "movie") {
+                Modifier.clickable { navController.navigate(
+                    DetailsNavGraph.MovieDetails.createRoute(
+                        item.id
+                    )
+                ) {
+                    launchSingleTop = true
+                } }
+            } else Modifier)
     ) {
         Row(Modifier.fillMaxWidth()) {
             Row(
