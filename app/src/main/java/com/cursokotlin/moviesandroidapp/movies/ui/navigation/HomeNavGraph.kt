@@ -20,6 +20,8 @@ import com.cursokotlin.moviesandroidapp.movies.ui.screens.MovieDetails.MovieDeta
 import com.cursokotlin.moviesandroidapp.movies.ui.screens.MovieDetails.MovieDetailsViewModel
 import com.cursokotlin.moviesandroidapp.movies.ui.screens.Search.SearchScreen
 import com.cursokotlin.moviesandroidapp.movies.ui.screens.Search.SearchViewModel
+import com.cursokotlin.moviesandroidapp.movies.ui.screens.TVDetails.TVDetailsScreen
+import com.cursokotlin.moviesandroidapp.movies.ui.screens.TVDetails.TVDetailsViewModel
 import com.cursokotlin.moviesandroidapp.movies.ui.screens.Trending.TrendingScreen
 import com.cursokotlin.moviesandroidapp.movies.ui.screens.Trending.TrendingViewModel
 
@@ -63,16 +65,27 @@ fun HomeNavGraph(
 fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
     navigation(
         route = Graph.DETAILS,
-        startDestination = DetailsNavGraph.MovieDetails.route
+        startDestination = DetailsScreen.MovieDetails.route
     ) {
         composable(
-            DetailsNavGraph.MovieDetails.route,
+            DetailsScreen.MovieDetails.route,
             arguments = listOf(
                 navArgument("movieId") { type = NavType.IntType }
             ),
             content = {
                 val viewModel = hiltViewModel<MovieDetailsViewModel>()
                 MovieDetailsScreen(
+                    viewModel
+                )
+            })
+        composable(
+            DetailsScreen.TVShowDetails.route,
+            arguments = listOf(
+                navArgument("tvShowId") { type = NavType.IntType }
+            ),
+            content = {
+                val viewModel = hiltViewModel<TVDetailsViewModel>()
+                TVDetailsScreen(
                     viewModel
                 )
             })

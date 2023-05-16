@@ -13,6 +13,8 @@ import com.cursokotlin.moviesandroidapp.movies.domain.GetTrendingPeopleUseCase
 import com.cursokotlin.moviesandroidapp.movies.domain.GetTrendingTVShowsUseCase
 import com.cursokotlin.moviesandroidapp.movies.ui.model.FavoriteModel
 import com.cursokotlin.moviesandroidapp.movies.ui.model.TrendingItemModel
+import com.cursokotlin.moviesandroidapp.movies.ui.navigation.DetailsScreen
+import com.cursokotlin.moviesandroidapp.movies.ui.navigation.HomeNavScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -49,6 +51,7 @@ class TrendingViewModel @Inject constructor(
 
     private val _trendingPeople = mutableStateListOf<TrendingItemModel>()
     val trendingPeople: List<TrendingItemModel> = _trendingPeople
+
 
     fun getTrending() {
         viewModelScope.launch {
@@ -120,5 +123,13 @@ class TrendingViewModel @Inject constructor(
 
     private fun isFavMovie(trendingItemModel: TrendingItemModel): Boolean {
         return favMovies.value.any { it.id == trendingItemModel.id }
+    }
+
+    fun getDetailsRoute(item: TrendingItemModel): String {
+        return when (item.mediaType) {
+            "movie" -> DetailsScreen.MovieDetails.createRoute(item.id)
+            "tv" -> DetailsScreen.TVShowDetails.createRoute(item.id)
+            else -> return HomeNavScreen.Trending.route
+        }
     }
 }

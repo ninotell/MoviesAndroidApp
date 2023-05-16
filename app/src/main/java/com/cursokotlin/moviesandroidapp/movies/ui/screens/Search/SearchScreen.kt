@@ -36,7 +36,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.cursokotlin.moviesandroidapp.R
 import com.cursokotlin.moviesandroidapp.movies.ui.model.MultiSearchItemModel
-import com.cursokotlin.moviesandroidapp.movies.ui.navigation.DetailsNavGraph
+import com.cursokotlin.moviesandroidapp.movies.ui.navigation.DetailsScreen
 import com.cursokotlin.moviesandroidapp.ui.theme.CustomYellow
 import com.cursokotlin.moviesandroidapp.util.mapTypesTitles
 
@@ -145,7 +145,7 @@ fun SearchResultItem(item: MultiSearchItemModel, navController: NavHostControlle
             .fillMaxWidth()
             .then(if (item.mediaType == "movie") {
                 Modifier.clickable { navController.navigate(
-                    DetailsNavGraph.MovieDetails.createRoute(
+                    DetailsScreen.MovieDetails.createRoute(
                         item.id
                     )
                 ) {
