@@ -92,7 +92,7 @@ fun MovieDetails(movie: MovieModel) {
                         .height(280.dp)
                 ) {
                     AsyncImage(
-                        model = "https://image.tmdb.org/t/p/w500/${movie.backdropPath}",
+                        model = "https://image.tmdb.org/t/p/original/${movie.backdropPath}",
                         placeholder = debugPlaceholder(debugPreview = R.drawable.backdrop),
                         contentDescription = "backdrop",
                         modifier = Modifier
@@ -132,7 +132,7 @@ fun Overview(movie: MovieModel) {
         Modifier
             .fillMaxWidth()
             .padding(horizontal = 25.dp)
-            .offset(y = (-20).dp)
+            .offset(y = (-55).dp)
     ) {
         Text(text = "Overview", fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
         Spacer(modifier = Modifier.padding(4.dp))

@@ -141,7 +141,7 @@ fun TrendingSection(
 @Composable
 fun TopImage(image: String?) {
     AsyncImage(
-        model = "https://image.tmdb.org/t/p/w500/${image}",
+        model = "https://image.tmdb.org/t/p/original/${image}",
         contentDescription = "background",
         modifier = Modifier
             .fillMaxWidth()
