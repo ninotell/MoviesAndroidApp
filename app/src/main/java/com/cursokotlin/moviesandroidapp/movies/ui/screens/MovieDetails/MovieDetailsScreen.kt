@@ -41,6 +41,9 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.cursokotlin.moviesandroidapp.R
 import com.cursokotlin.moviesandroidapp.movies.data.Genre
+import com.cursokotlin.moviesandroidapp.movies.ui.components.GenresGrid
+import com.cursokotlin.moviesandroidapp.movies.ui.components.RatingStars
+import com.cursokotlin.moviesandroidapp.movies.ui.components.TopImage
 import com.cursokotlin.moviesandroidapp.movies.ui.model.MovieModel
 import com.cursokotlin.moviesandroidapp.ui.theme.CustomYellow
 import kotlin.math.truncate
@@ -91,15 +94,7 @@ fun MovieDetails(movie: MovieModel) {
                         .fillMaxWidth()
                         .height(280.dp)
                 ) {
-                    AsyncImage(
-                        model = "https://image.tmdb.org/t/p/original/${movie.backdropPath}",
-                        placeholder = debugPlaceholder(debugPreview = R.drawable.backdrop),
-                        contentDescription = "backdrop",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)),
-                        contentScale = ContentScale.Crop
-                    )
+                    TopImage(path = movie.backdropPath, modifier = Modifier)
                 }
                 Box(
                     Modifier
@@ -150,66 +145,9 @@ fun Details(movie: MovieModel, modifier: Modifier) {
         verticalArrangement = Arrangement.Top
     ) {
         Text(text = movie.title, fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
-        Row() {
-            for (i in 1..((truncate(movie.voteAverage).toInt()) / 2)) {
-                Icon(
-                    painterResource(id = R.drawable.ic_star_filled),
-                    modifier = Modifier
-                        .size(24.dp)
-                        .padding(end = 5.dp),
-                    contentDescription = "star${i}",
-                    tint = CustomYellow
-                )
-            }
-            for (i in 1..(5 - (truncate(movie.voteAverage).toInt()) / 2)) {
-                Icon(
-                    painterResource(id = R.drawable.ic_star_empty),
-                    modifier = Modifier
-                        .size(24.dp)
-                        .padding(end = 5.dp),
-                    contentDescription = "star${i}",
-                    tint = CustomYellow
-                )
-            }
-        }
+        RatingStars(movie.voteAverage, Modifier)
         Spacer(modifier = Modifier.padding(6.dp))
-        MovieGenres(movie)
-
-    }
-}
-
-@Composable
-fun MovieGenres(movie: MovieModel) {
-    LazyVerticalGrid(
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-        columns = GridCells.Adaptive(70.dp),
-        modifier = Modifier.height(100.dp)
-    ) {
-        items(movie.genres) { genre ->
-            Genre(genre)
-            Spacer(modifier = Modifier.padding(4.dp))
-        }
-    }
-}
-
-@Composable
-fun Genre(genre: Genre) {
-    Box(
-        modifier = Modifier
-            .clip(CircleShape)
-            .background(Color.Yellow),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = if (genre.name.length < 10) genre.name else "${genre.name.substring(0,11)}...",
-            modifier = Modifier
-                .padding(horizontal = 6.dp),
-            color = Color.Black,
-            fontSize = 12.sp,
-            textAlign = TextAlign.Center,
-            maxLines = 1
-        )
+        GenresGrid(movie.genres)
     }
 }
 

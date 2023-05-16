@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.cursokotlin.moviesandroidapp.R
+import com.cursokotlin.moviesandroidapp.movies.ui.components.TopImage
 import com.cursokotlin.moviesandroidapp.movies.ui.model.TrendingItemModel
 import com.cursokotlin.moviesandroidapp.ui.theme.CustomYellow
 
@@ -71,7 +72,7 @@ fun TrendingScreen(trendingViewModel: TrendingViewModel, navController: NavHostC
         if (isLoading) {
             LinearProgressIndicator()
         } else {
-            TopImage(image = topImagePath)
+            TopImage(path = topImagePath, modifier = Modifier)
 
             Spacer(modifier = Modifier.padding(12.dp))
 
@@ -123,19 +124,6 @@ fun TrendingSection(
             TrendingItem(item = it, navController, trendingViewModel)
         }
     }
-}
-
-@Composable
-fun TopImage(image: String?) {
-    AsyncImage(
-        model = "https://image.tmdb.org/t/p/original/${image}",
-        contentDescription = "background",
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(280.dp)
-            .alpha(alpha = 0.7f),
-        contentScale = ContentScale.Crop
-    )
 }
 
 @Composable

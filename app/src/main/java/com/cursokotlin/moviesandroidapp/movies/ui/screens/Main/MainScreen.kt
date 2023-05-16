@@ -1,4 +1,4 @@
-package com.cursokotlin.moviesandroidapp.movies.ui.Main
+package com.cursokotlin.moviesandroidapp.movies.ui.screens.Main
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
