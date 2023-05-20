@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace 'com.cursokotlin.moviesandroidapp'
+    namespace 'com.nt.moviesandroidapp'
     compileSdk 33
 
     defaultConfig {
