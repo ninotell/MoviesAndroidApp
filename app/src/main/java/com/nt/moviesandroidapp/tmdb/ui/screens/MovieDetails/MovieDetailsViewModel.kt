@@ -24,7 +24,7 @@ class MovieDetailsViewModel @Inject constructor(
     val movie: LiveData<MovieModel> = _movie
 
     init {
-        val movieId: Int? = savedStateHandle["tvId"]
+        val movieId: Int? = savedStateHandle["movieId"]
         fetchMovie(movieId!!)
     }
 

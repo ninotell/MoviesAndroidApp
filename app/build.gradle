@@ -10,7 +10,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.cursokotlin.moviesandroidapp"
+        applicationId "com.nt.moviesandroidapp"
         minSdk 31 //Blur only supported on android 12 and above
         targetSdk 33
         versionCode 1
