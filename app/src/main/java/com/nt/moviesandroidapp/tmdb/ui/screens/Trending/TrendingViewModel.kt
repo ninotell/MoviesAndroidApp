@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nt.moviesandroidapp.tmdb.data.network.ApiError
 import com.nt.moviesandroidapp.tmdb.domain.usecase.AddFavMovieUseCase
 import com.nt.moviesandroidapp.tmdb.domain.usecase.DeleteFavMovieUseCase
 import com.nt.moviesandroidapp.tmdb.domain.usecase.GetFavMoviesUseCase
@@ -13,8 +14,6 @@ import com.nt.moviesandroidapp.tmdb.domain.usecase.GetTrendingPeopleUseCase
 import com.nt.moviesandroidapp.tmdb.domain.usecase.GetTrendingTVShowsUseCase
 import com.nt.moviesandroidapp.tmdb.ui.model.FavoriteModel
 import com.nt.moviesandroidapp.tmdb.ui.model.TrendingItemModel
-import com.nt.moviesandroidapp.tmdb.ui.navigation.DetailsScreen
-import com.nt.moviesandroidapp.tmdb.ui.navigation.HomeNavScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -36,6 +35,9 @@ class TrendingViewModel @Inject constructor(
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
+
+    private val _apiError = MutableLiveData<ApiError?>()
+    val apiError : LiveData<ApiError?> = _apiError
 
     private val _toastMessage = MutableLiveData<String>()
     val toastMessage: LiveData<String> = _toastMessage
@@ -123,5 +125,9 @@ class TrendingViewModel @Inject constructor(
 
     private fun isFavMovie(trendingItemModel: TrendingItemModel): Boolean {
         return favMovies.value.any { it.id == trendingItemModel.id }
+    }
+
+    fun setError(apiError: ApiError?) {
+        _apiError.value = apiError
     }
 }

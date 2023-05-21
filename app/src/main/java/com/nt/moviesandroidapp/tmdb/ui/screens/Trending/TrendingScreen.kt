@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.nt.moviesandroidapp.R
+import com.nt.moviesandroidapp.tmdb.ui.components.ErrorComponent
 import com.nt.moviesandroidapp.tmdb.ui.components.TopImage
 import com.nt.moviesandroidapp.tmdb.ui.model.TrendingItemModel
 import com.nt.moviesandroidapp.ui.theme.CustomYellow
@@ -57,6 +58,7 @@ import com.nt.moviesandroidapp.util.getDetailsRoute
 fun TrendingScreen(trendingViewModel: TrendingViewModel, navController: NavHostController) {
     val isLoading: Boolean by trendingViewModel.isLoading.observeAsState(initial = false)
     val topImagePath: String by trendingViewModel.topImagePath.observeAsState(initial = "")
+    val apiError by trendingViewModel.apiError.observeAsState()
     val trendingMovies: List<TrendingItemModel> = trendingViewModel.trendingMovies
     val trendingTVShows = trendingViewModel.trendingTVShows
     val trendingPeople = trendingViewModel.trendingPeople
@@ -64,12 +66,17 @@ fun TrendingScreen(trendingViewModel: TrendingViewModel, navController: NavHostC
     Column(
         Modifier
             .fillMaxSize()
-//            .background(Color(0xFF1E1E1E))
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if (isLoading) {
+        if (apiError != null) {
+            ErrorComponent(
+                modifier = Modifier,
+                error = apiError!!,
+                navController = navController
+            )
+        } else if (isLoading) {
             LinearProgressIndicator()
         } else {
             TopImage(path = topImagePath, modifier = Modifier)

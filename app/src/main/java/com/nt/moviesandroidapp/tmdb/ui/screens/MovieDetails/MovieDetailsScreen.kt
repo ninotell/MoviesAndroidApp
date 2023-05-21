@@ -29,8 +29,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.nt.moviesandroidapp.R
+import com.nt.moviesandroidapp.tmdb.ui.components.ErrorComponent
 import com.nt.moviesandroidapp.tmdb.ui.components.GenresGrid
 import com.nt.moviesandroidapp.tmdb.ui.components.RatingStars
 import com.nt.moviesandroidapp.tmdb.ui.components.TopImage
@@ -38,23 +40,27 @@ import com.nt.moviesandroidapp.tmdb.ui.model.MovieModel
 
 @Composable
 fun MovieDetailsScreen(
-    movieDetailsViewModel: MovieDetailsViewModel
+    movieDetailsViewModel: MovieDetailsViewModel,
+    navController: NavHostController
 ) {
     val isLoading: Boolean by movieDetailsViewModel.isLoading.observeAsState(initial = false)
+    val error by movieDetailsViewModel.error.observeAsState()
     val movie by movieDetailsViewModel.movie.observeAsState()
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (isLoading) {
+        if (error != null) {
+            ErrorComponent(Modifier.fillMaxSize(), error!!, navController)
+        } else if (isLoading) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
             )
         } else {
-            movie?.let {
-                MovieDetails(movie!!)
+            movie?.let { m ->
+                MovieDetails(m)
             }
         }
     }

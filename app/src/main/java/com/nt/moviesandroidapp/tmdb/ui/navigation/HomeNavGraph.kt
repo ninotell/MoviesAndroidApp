@@ -75,7 +75,8 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
             content = {
                 val viewModel = hiltViewModel<MovieDetailsViewModel>()
                 MovieDetailsScreen(
-                    viewModel
+                    viewModel,
+                    navController
                 )
             })
         composable(

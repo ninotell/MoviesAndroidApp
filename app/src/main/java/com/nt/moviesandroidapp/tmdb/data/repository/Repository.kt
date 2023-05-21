@@ -3,6 +3,7 @@ package com.nt.moviesandroidapp.tmdb.data.repository
 import android.util.Log
 import com.nt.moviesandroidapp.tmdb.data.database.dao.FavoriteDao
 import com.nt.moviesandroidapp.tmdb.data.database.models.FavoriteEntity
+import com.nt.moviesandroidapp.tmdb.data.network.ApiError
 import com.nt.moviesandroidapp.tmdb.data.network.ApiService
 import com.nt.moviesandroidapp.tmdb.data.network.response.MovieDetailsResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.MultiSearchResponse
@@ -20,7 +21,12 @@ class Repository @Inject constructor(
 
     //Encargado de consultar donde requiera (API, db, etc)
     suspend fun getMovieDetailsOnAPI(movieId: Int): MovieDetailsResponse? {
-        return apiService.getMovieDetails(movieId)
+        val response = apiService.getMovieDetails(movieId)
+        when (response.code){
+           200 -> return response.response
+           401 -> throw ApiError.IncorrectApiKey
+           else ->  throw ApiError.GenericApiError(response.error?.message ?: "Unexpected error")
+        }
     }
     suspend fun getTVDetailsOnAPI(tvId: Int): TVDetailsResponse? {
         return apiService.getTVDetails(tvId)

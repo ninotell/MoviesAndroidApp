@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nt.moviesandroidapp.tmdb.data.network.ApiError
 import com.nt.moviesandroidapp.tmdb.domain.usecase.GetMovieDetailsUseCase
 import com.nt.moviesandroidapp.tmdb.ui.model.MovieModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +24,9 @@ class MovieDetailsViewModel @Inject constructor(
     private val _movie = MutableLiveData<MovieModel>()
     val movie: LiveData<MovieModel> = _movie
 
+    private val _error = MutableLiveData<ApiError>()
+    val error: LiveData<ApiError> = _error
+
     init {
         val movieId: Int? = savedStateHandle["movieId"]
         fetchMovie(movieId!!)
@@ -31,9 +35,13 @@ class MovieDetailsViewModel @Inject constructor(
     private fun fetchMovie(movieId: Int) {
         viewModelScope.launch {
             _isLoading.value = true
-            val result =
-                movieId.let { getMovieDetailsUseCase.invoke(it) }
-            _movie.value = result?.toUIModel()
+            try {
+                val result =
+                    getMovieDetailsUseCase(movieId)
+                _movie.value = result?.toUIModel()
+            } catch (e: ApiError) {
+                _error.value = e
+            }
             _isLoading.value = false
         }
     }

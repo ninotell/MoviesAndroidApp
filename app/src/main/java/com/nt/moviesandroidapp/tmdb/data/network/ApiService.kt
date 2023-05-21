@@ -1,5 +1,6 @@
 package com.nt.moviesandroidapp.tmdb.data.network
 
+import com.nt.moviesandroidapp.tmdb.data.network.response.ApiResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.MovieDetailsResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.MultiSearchResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.TVDetailsResponse
@@ -8,12 +9,13 @@ import javax.inject.Inject
 
 class ApiService @Inject constructor(private val apiClient: ApiClient) {
     //Encargado de llamar a todos los endpoints del Client
-    suspend fun getMovieDetails(movieId: Int): MovieDetailsResponse? {
+    suspend fun getMovieDetails(movieId: Int): ApiResponse<MovieDetailsResponse> {
         val response = apiClient.getMovieDetails(movieId)
-        if (response.isSuccessful){
-            return response.body()
+        return if (response.isSuccessful){
+            ApiResponse(response.code(), response.body(), null)
+        } else {
+            ApiResponse(response.code(), null, null)
         }
-        return null
     }
     suspend fun getTVDetails(tvId: Int): TVDetailsResponse? {
         val response = apiClient.getTVDetails(tvId)
