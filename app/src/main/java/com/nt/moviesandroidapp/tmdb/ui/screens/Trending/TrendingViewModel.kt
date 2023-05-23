@@ -101,12 +101,14 @@ class TrendingViewModel @Inject constructor(
         _trendingPeople.addAll(newPeopleList)
     }
 
-    fun onFavButtonSelected(trendingItemModel: TrendingItemModel) {
+    fun onFavButtonSelected(trendingItemModel: TrendingItemModel): Boolean {
+        var hasError = false
         if (!isFavMovie(trendingItemModel)) {
             viewModelScope.launch {
                 try {
                     addFavMovieUseCase(trendingItemModel.toFavoriteData())
                 } catch (e: Exception) {
+                    hasError = true
                     _toastMessage.value = "An error occurred"
                     e.printStackTrace()
                 }
@@ -116,11 +118,13 @@ class TrendingViewModel @Inject constructor(
                 try {
                     deleteFavMovieUseCase(trendingItemModel.toFavoriteData())
                 } catch (e: Exception) {
+                    hasError = true
                     _toastMessage.value = "An error occurred"
                     e.printStackTrace()
                 }
             }
         }
+        return hasError
     }
 
     private fun isFavMovie(trendingItemModel: TrendingItemModel): Boolean {
