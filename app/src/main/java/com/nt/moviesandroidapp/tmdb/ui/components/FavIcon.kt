@@ -39,11 +39,13 @@ fun FavIconLottie(
     item: TrendingItemModel,
     trendingViewModel: TrendingViewModel
 ) {
-    val composition by rememberLottieComposition(LottieCompositionSpec.Url("https://assets6.lottiefiles.com/datafiles/37eUecfCINgL4BgFY1NcvncT1LRajr8hJkkfQ9DY/star/star.json"))
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.star_fav_animation))
     var isFav by remember { mutableStateOf(item.fav) }
     val animatedProgress by animateFloatAsState(
         targetValue = if (isFav) 1f else 0f,
-        animationSpec = tween(1000)
+        animationSpec = tween(
+            durationMillis = if (isFav) 1800 else 1000
+        )
     )
 
     Box(
@@ -65,6 +67,7 @@ fun FavIconLottie(
     ) {
         LottieAnimation(
             composition = composition,
+            modifier = Modifier.scale(1.1f),
             progress = { animatedProgress }
         )
     }
