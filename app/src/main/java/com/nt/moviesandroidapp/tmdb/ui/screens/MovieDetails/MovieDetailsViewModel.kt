@@ -28,7 +28,7 @@ class MovieDetailsViewModel @Inject constructor(
     val error: LiveData<ApiError> = _error
 
     init {
-        val movieId: Int? = null
+        val movieId: Int? = savedStateHandle["movieId"]
         fetchMovie(movieId)
     }
 
