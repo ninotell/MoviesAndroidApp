@@ -28,21 +28,25 @@ class MovieDetailsViewModel @Inject constructor(
     val error: LiveData<ApiError> = _error
 
     init {
-        val movieId: Int? = savedStateHandle["movieId"]
-        fetchMovie(movieId!!)
+        val movieId: Int? = null
+        fetchMovie(movieId)
     }
 
-    private fun fetchMovie(movieId: Int) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            try {
-                val result =
-                    getMovieDetailsUseCase(movieId)
-                _movie.value = result?.toUIModel()
-            } catch (e: ApiError) {
-                _error.value = e
+    private fun fetchMovie(movieId: Int?) {
+        movieId?.let {
+            viewModelScope.launch {
+                _isLoading.value = true
+                try {
+                    val result =
+                        getMovieDetailsUseCase(movieId)
+                    _movie.value = result?.toUIModel()
+                } catch (e: ApiError) {
+                    _error.value = e
+                }
+                _isLoading.value = false
             }
-            _isLoading.value = false
+            return
         }
+        _error.value = ApiError.GenericApiError("Movie not found")
     }
 }

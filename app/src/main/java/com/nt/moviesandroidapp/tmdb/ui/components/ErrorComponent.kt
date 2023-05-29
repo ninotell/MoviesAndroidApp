@@ -1,12 +1,15 @@
 package com.nt.moviesandroidapp.tmdb.ui.components
 
 import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -52,14 +55,12 @@ fun ErrorComponent(modifier: Modifier, error: ApiError, navController: NavHostCo
             fontWeight = FontWeight.SemiBold,
             color = Color.LightGray,
         )
-        if (error != null) {
-            TextButton(onClick = { activity.finish() }) {
-                Text(
-                    text = "Exit",
-                    fontSize = 18.sp,
-                    color = Color(0xFF4EA8E9)
-                )
-            }
+        TextButton(onClick = { navController.popBackStack() }) {
+            Text(
+                text = "Go back",
+                fontSize = 18.sp,
+                color = Color(0xFF4EA8E9)
+            )
         }
     }
 }

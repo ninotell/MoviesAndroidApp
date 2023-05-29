@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,12 +49,14 @@ fun MovieDetailsScreen(
     val error by movieDetailsViewModel.error.observeAsState()
     val movie by movieDetailsViewModel.movie.observeAsState()
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = if (error == null) Arrangement.Top else Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (error != null) {
-            ErrorComponent(Modifier.fillMaxSize(), error!!, navController)
+            ErrorComponent(Modifier, error!!, navController)
         } else if (isLoading) {
             Box(
                 modifier = Modifier
