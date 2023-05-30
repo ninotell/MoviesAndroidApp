@@ -8,4 +8,7 @@ sealed class DetailsScreen (val route: String){
     object TVDetails : DetailsScreen("tvShowDetails/{tvId}") {
         fun createRoute(tvId: Int) = "tvShowDetails/$tvId"
     }
+    object PersonDetails : DetailsScreen("personDetails/{personId}") {
+        fun createRoute(personId: Int) = "personDetails/$personId"
+    }
 }

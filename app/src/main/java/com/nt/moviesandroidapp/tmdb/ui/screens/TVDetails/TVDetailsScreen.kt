@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.nt.moviesandroidapp.tmdb.ui.components.DetailsFavIcon
 import com.nt.moviesandroidapp.tmdb.ui.components.GenresGrid
@@ -38,17 +39,16 @@ import com.nt.moviesandroidapp.tmdb.ui.model.TVModel
 
 @Composable
 fun TVDetailsScreen(
-    tvDetailsViewModel: TVDetailsViewModel
+    tvDetailsViewModel: TVDetailsViewModel,
+    navController: NavHostController
 ) {
     val isLoading: Boolean by tvDetailsViewModel.isLoading.observeAsState(initial = false)
     val tv by tvDetailsViewModel.tv.observeAsState()
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .verticalScroll(rememberScrollState())
     ) {
         if (isLoading) {
             Box(
@@ -57,7 +57,14 @@ fun TVDetailsScreen(
             )
         } else {
             tv?.let {
-                TVDetails(tv!!, tvDetailsViewModel)
+                TVDetails(it, tvDetailsViewModel)
+                DetailsFavIcon(
+                    tvDetailsViewModel.isFavMovie(it.id),
+                    Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(32.dp)
+                        .size(42.dp)
+                ) { tvDetailsViewModel.onFavButtonSelected(it) }
             }
         }
     }
@@ -85,16 +92,7 @@ fun TVDetails(tv: TVModel, tvDetailsViewModel: TVDetailsViewModel) {
                         .fillMaxWidth()
                         .height(280.dp)
                 ) {
-                    Box() {
-                        TopImage(path = tv.backdropPath, modifier = Modifier)
-                        DetailsFavIcon(
-                            tvDetailsViewModel.isFavMovie(tv.id),
-                            Modifier
-                                .align(Alignment.BottomEnd)
-                                .padding(8.dp)
-                                .size(32.dp)
-                        ) { tvDetailsViewModel.onFavButtonSelected(tv) }
-                    }
+                    TopImage(path = tv.backdropPath, modifier = Modifier)
                 }
                 Box(
                     Modifier
@@ -106,7 +104,6 @@ fun TVDetails(tv: TVModel, tvDetailsViewModel: TVDetailsViewModel) {
                     AsyncImage(
                         model = "https://image.tmdb.org/t/p/w500/${tv.posterPath}",
                         contentDescription = "poster",
-//                        contentScale = ContentScale.FillHeight,
                         modifier = Modifier
                             .clip(RoundedCornerShape(8.dp))
                             .height(235.dp)

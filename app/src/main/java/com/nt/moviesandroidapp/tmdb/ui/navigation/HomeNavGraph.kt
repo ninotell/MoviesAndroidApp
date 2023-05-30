@@ -18,6 +18,8 @@ import com.nt.moviesandroidapp.tmdb.ui.screens.Favorites.FavoritesScreen
 import com.nt.moviesandroidapp.tmdb.ui.screens.Favorites.FavoritesViewModel
 import com.nt.moviesandroidapp.tmdb.ui.screens.MovieDetails.MovieDetailsScreen
 import com.nt.moviesandroidapp.tmdb.ui.screens.MovieDetails.MovieDetailsViewModel
+import com.nt.moviesandroidapp.tmdb.ui.screens.PersonDetails.PersonDetailsScreen
+import com.nt.moviesandroidapp.tmdb.ui.screens.PersonDetails.PersonDetailsViewModel
 import com.nt.moviesandroidapp.tmdb.ui.screens.Search.SearchScreen
 import com.nt.moviesandroidapp.tmdb.ui.screens.Search.SearchViewModel
 import com.nt.moviesandroidapp.tmdb.ui.screens.TVDetails.TVDetailsScreen
@@ -87,7 +89,20 @@ fun NavGraphBuilder.detailsNavGraph(navController: NavHostController) {
             content = {
                 val viewModel = hiltViewModel<TVDetailsViewModel>()
                 TVDetailsScreen(
-                    viewModel
+                    viewModel,
+                    navController
+                )
+            })
+        composable(
+            DetailsScreen.PersonDetails.route,
+            arguments = listOf(
+                navArgument("personId") { type = NavType.IntType }
+            ),
+            content = {
+                val viewModel = hiltViewModel<PersonDetailsViewModel>()
+                PersonDetailsScreen(
+                    viewModel,
+                    navController
                 )
             })
     }

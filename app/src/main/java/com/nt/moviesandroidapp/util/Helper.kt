@@ -29,6 +29,7 @@ fun getDetailsRoute(mediaType: String, id: Int): String {
     return when (mediaType) {
         "movie" -> DetailsScreen.MovieDetails.createRoute(id)
         "tv" -> DetailsScreen.TVDetails.createRoute(id)
+        "person" -> DetailsScreen.PersonDetails.createRoute(id)
         else -> return HomeNavScreen.Trending.route
     }
 }

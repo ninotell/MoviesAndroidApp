@@ -2,6 +2,8 @@ package com.nt.moviesandroidapp.tmdb.data.network.response
 
 
 import com.google.gson.annotations.SerializedName
+import com.nt.moviesandroidapp.tmdb.ui.model.PersonModel
+import com.nt.moviesandroidapp.tmdb.ui.model.TVModel
 
 data class PersonDetailsResponse(
     @SerializedName("adult")
@@ -32,4 +34,19 @@ data class PersonDetailsResponse(
     val popularity: Double,
     @SerializedName("profile_path")
     val profilePath: String
-)
+) {
+    fun toUIModel(): PersonModel {
+        return PersonModel(
+            this.id,
+            this.name,
+            this.profilePath,
+            this.biography,
+            this.birthday,
+            this.placeOfBirth,
+            this.deathday,
+            this.gender,
+            this.homepage,
+            this.popularity
+        )
+    }
+}
