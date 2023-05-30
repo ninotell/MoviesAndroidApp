@@ -7,6 +7,7 @@ import com.nt.moviesandroidapp.tmdb.data.network.ApiError
 import com.nt.moviesandroidapp.tmdb.data.network.ApiService
 import com.nt.moviesandroidapp.tmdb.data.network.response.MovieDetailsResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.MultiSearchResponse
+import com.nt.moviesandroidapp.tmdb.data.network.response.PersonDetailsResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.TVDetailsResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.TrendingResponse
 import com.nt.moviesandroidapp.tmdb.ui.model.FavoriteModel
@@ -30,6 +31,9 @@ class Repository @Inject constructor(
     }
     suspend fun getTVDetailsOnAPI(tvId: Int): TVDetailsResponse? {
         return apiService.getTVDetails(tvId)
+    }
+    suspend fun getPersonDetailsOnAPI(personId: Int): PersonDetailsResponse? {
+        return apiService.getPersonDetails(personId)
     }
 
     suspend fun getTrendingMoviesOnAPI(): TrendingResponse? {

@@ -2,6 +2,7 @@ package com.nt.moviesandroidapp.tmdb.data.network
 
 import com.nt.moviesandroidapp.tmdb.data.network.response.MovieDetailsResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.MultiSearchResponse
+import com.nt.moviesandroidapp.tmdb.data.network.response.PersonDetailsResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.TVDetailsResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.TrendingResponse
 import retrofit2.Response
@@ -14,6 +15,10 @@ interface ApiClient {
     suspend fun getMovieDetails(@Path(value = "movie_id") movieId: Int): Response<MovieDetailsResponse>
     @GET("/3/tv/{series_id}")
     suspend fun getTVDetails(@Path(value = "series_id") tvId: Int): Response<TVDetailsResponse>
+
+
+    @GET("/3/person/{person_id}")
+    suspend fun getPersonDetails(@Path(value = "person_id") personId: Int): Response<PersonDetailsResponse>
 
     @GET("/3/trending/movie/week")
     suspend fun getTrendingMovies(): Response<TrendingResponse>
