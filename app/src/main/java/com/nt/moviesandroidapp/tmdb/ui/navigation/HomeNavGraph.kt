@@ -57,7 +57,7 @@ fun HomeNavGraph(
             HomeNavScreen.Favorites.route,
             content = {
                 val favoritesViewModel = hiltViewModel<FavoritesViewModel>()
-                FavoritesScreen(favoritesViewModel)
+                FavoritesScreen(favoritesViewModel, navController)
             }
         )
         detailsNavGraph(navController)

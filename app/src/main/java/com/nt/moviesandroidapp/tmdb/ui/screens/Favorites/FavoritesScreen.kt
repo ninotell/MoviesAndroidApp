@@ -42,12 +42,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.nt.moviesandroidapp.tmdb.ui.model.FavoriteModel
+import com.nt.moviesandroidapp.util.getDetailsRoute
 import com.nt.moviesandroidapp.util.mapTypesTitles
 
 @Composable
-fun FavoritesScreen(favoritesViewModel: FavoritesViewModel) {
+fun FavoritesScreen(favoritesViewModel: FavoritesViewModel, navController: NavHostController) {
     val favs = remember { favoritesViewModel.mapFavsVisibility }
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
@@ -86,7 +88,7 @@ fun FavoritesScreen(favoritesViewModel: FavoritesViewModel) {
                         textAlign = TextAlign.Center
                     )
                 } else {
-                    MoviesList(favs, favoritesViewModel, Modifier.align(Alignment.TopCenter))
+                    MoviesList(favs, favoritesViewModel, Modifier.align(Alignment.TopCenter), navController)
                 }
             }
         }
@@ -98,7 +100,8 @@ fun FavoritesScreen(favoritesViewModel: FavoritesViewModel) {
 fun MoviesList(
     favoritesMap: MutableMap<FavoriteModel, Boolean>,
     favoritesViewModel: FavoritesViewModel,
-    modifier: Modifier
+    modifier: Modifier,
+    navController: NavHostController
 ) {
     val favoritesList = favoritesMap.map { it.key }
     val favoritesTypeMap: Map<String, List<FavoriteModel>> = favoritesList.groupBy { it.mediaType }
@@ -135,7 +138,7 @@ fun MoviesList(
                     exit = shrinkVertically(tween(500))
                 ) {
                     Box(modifier = Modifier.padding(horizontal = 12.dp)) {
-                        FavItem(item, favoritesViewModel)
+                        FavItem(item, favoritesViewModel, navController)
                     }
                 }
             }
@@ -146,13 +149,23 @@ fun MoviesList(
 @Composable
 fun FavItem(
     item: FavoriteModel,
-    favoritesViewModel: FavoritesViewModel
+    favoritesViewModel: FavoritesViewModel,
+    navController: NavHostController
 ) {
     var imageUrl = "https://image.tmdb.org/t/p/w500/"
     imageUrl += if (!item.posterPath.isNullOrBlank()) item.posterPath
     else item.profilePath
 
-    Column(Modifier.fillMaxWidth()) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .clickable {
+                navController.navigate(
+                    getDetailsRoute(item.mediaType, item.id)
+                ) {
+                    launchSingleTop = true
+                }
+            }) {
         Row(
             Modifier
                 .clip(RoundedCornerShape(12.dp))
