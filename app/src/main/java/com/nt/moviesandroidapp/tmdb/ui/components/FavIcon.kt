@@ -36,11 +36,11 @@ import com.nt.moviesandroidapp.ui.theme.CustomYellow
 @Composable
 fun FavIconLottie(
     modifier: Modifier,
-    item: TrendingItemModel,
-    trendingViewModel: TrendingViewModel
+    isFav: Boolean,
+    onFavSelected: () -> Boolean
 ) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.star_fav_animation))
-    var isFav by remember { mutableStateOf(item.fav) }
+    var isFav by remember { mutableStateOf(isFav) }
     val animatedProgress by animateFloatAsState(
         targetValue = if (isFav) 1f else 0f,
         animationSpec = tween(
@@ -58,7 +58,7 @@ fun FavIconLottie(
                 )
             )
             .clickable {
-                val hasError = trendingViewModel.onFavButtonSelected(item)
+                val hasError = onFavSelected()
                 if (!hasError) {
                     isFav = !isFav
                 }
@@ -74,17 +74,19 @@ fun FavIconLottie(
 }
 
 @Composable
-fun FavIcon(modifier: Modifier, item: TrendingItemModel, trendingViewModel: TrendingViewModel) {
+fun FavIcon(modifier: Modifier,
+            isFav: Boolean,
+            onFavSelected: () -> Boolean) {
     val defaultSize = 15.dp
     val bounceScale = 1.5f
     val normalScale = 1f
-    var isFav by remember { mutableStateOf(item.fav) }
+    var isFav by remember { mutableStateOf(isFav) }
     val scale by animateFloatAsState(
-        targetValue = if (item.fav) bounceScale else normalScale,
+        targetValue = if (isFav) bounceScale else normalScale,
         spring(Spring.DampingRatioHighBouncy)
     )
     val size by animateDpAsState(
-        targetValue = if (item.fav) defaultSize else defaultSize * bounceScale
+        targetValue = if (isFav) defaultSize else defaultSize * bounceScale
     )
     Box(
         modifier = modifier
@@ -96,7 +98,7 @@ fun FavIcon(modifier: Modifier, item: TrendingItemModel, trendingViewModel: Tren
                 )
             )
             .clickable {
-                val hasError = trendingViewModel.onFavButtonSelected(item)
+                val hasError = onFavSelected()
                 if (!hasError) {
                     isFav = !isFav
                 }
@@ -110,7 +112,7 @@ fun FavIcon(modifier: Modifier, item: TrendingItemModel, trendingViewModel: Tren
                 .size(size)
                 .align(Alignment.Center)
                 .scale(scale),
-            tint = if (item.fav) CustomYellow else MaterialTheme.colors.background
+            tint = if (isFav) CustomYellow else MaterialTheme.colors.background
         )
     }
 

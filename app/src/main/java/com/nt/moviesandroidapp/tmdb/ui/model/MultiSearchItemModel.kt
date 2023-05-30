@@ -12,5 +12,6 @@ data class MultiSearchItemModel(
     val backdropPath: String?,
     val genreIds: List<Int>?,
     val releaseDate: String?,
-    val profilePath: String?
+    val profilePath: String?,
+    val popularity: Double
 )

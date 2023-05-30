@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,7 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.nt.moviesandroidapp.R
+import com.nt.moviesandroidapp.tmdb.ui.components.DetailsFavIcon
 import com.nt.moviesandroidapp.tmdb.ui.components.GenresGrid
 import com.nt.moviesandroidapp.tmdb.ui.components.RatingStars
 import com.nt.moviesandroidapp.tmdb.ui.components.TopImage
@@ -56,14 +57,14 @@ fun TVDetailsScreen(
             )
         } else {
             tv?.let {
-                TVDetails(tv!!)
+                TVDetails(tv!!, tvDetailsViewModel)
             }
         }
     }
 }
 
 @Composable
-fun TVDetails(tv: TVModel) {
+fun TVDetails(tv: TVModel, tvDetailsViewModel: TVDetailsViewModel) {
     BoxWithConstraints(Modifier.fillMaxSize()) {
         AsyncImage(
             model = "https://image.tmdb.org/t/p/w500/${tv.posterPath}",
@@ -84,7 +85,16 @@ fun TVDetails(tv: TVModel) {
                         .fillMaxWidth()
                         .height(280.dp)
                 ) {
-                    TopImage(path = tv.backdropPath, modifier = Modifier)
+                    Box() {
+                        TopImage(path = tv.backdropPath, modifier = Modifier)
+                        DetailsFavIcon(
+                            tvDetailsViewModel.isFavMovie(tv.id),
+                            Modifier
+                                .align(Alignment.BottomEnd)
+                                .padding(8.dp)
+                                .size(32.dp)
+                        ) { tvDetailsViewModel.onFavButtonSelected(tv) }
+                    }
                 }
                 Box(
                     Modifier

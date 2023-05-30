@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.nt.moviesandroidapp.R
+import com.nt.moviesandroidapp.tmdb.ui.components.DetailsFavIcon
 import com.nt.moviesandroidapp.tmdb.ui.components.ErrorComponent
 import com.nt.moviesandroidapp.tmdb.ui.components.GenresGrid
 import com.nt.moviesandroidapp.tmdb.ui.components.RatingStars
@@ -64,14 +66,14 @@ fun MovieDetailsScreen(
             )
         } else {
             movie?.let { m ->
-                MovieDetails(m)
+                MovieDetails(m, movieDetailsViewModel)
             }
         }
     }
 }
 
 @Composable
-fun MovieDetails(movie: MovieModel) {
+fun MovieDetails(movie: MovieModel, movieDetailsViewModel: MovieDetailsViewModel) {
     BoxWithConstraints(Modifier.fillMaxSize()) {
         AsyncImage(
             model = "https://image.tmdb.org/t/p/w500/${movie.posterPath}",
@@ -92,7 +94,16 @@ fun MovieDetails(movie: MovieModel) {
                         .fillMaxWidth()
                         .height(280.dp)
                 ) {
-                    TopImage(path = movie.backdropPath, modifier = Modifier)
+                    Box() {
+                        TopImage(path = movie.backdropPath, modifier = Modifier)
+                        DetailsFavIcon(
+                            movieDetailsViewModel.isFavMovie(movie.id),
+                            Modifier
+                                .align(Alignment.BottomEnd)
+                                .padding(8.dp)
+                                .size(32.dp)
+                        ) { movieDetailsViewModel.onFavButtonSelected(movie) }
+                    }
                 }
                 Box(
                     Modifier

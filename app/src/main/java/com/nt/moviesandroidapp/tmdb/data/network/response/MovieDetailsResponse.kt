@@ -50,7 +50,7 @@ data class MovieDetailsResponse(
     @SerializedName("vote_count")
     val voteCount: Int
 ) {
-    fun toUIModel(): MovieModel {
+    fun toUIModel(fav: Boolean): MovieModel {
         return MovieModel(
             this.id,
             this.originalTitle,
@@ -60,7 +60,8 @@ data class MovieDetailsResponse(
             this.releaseDate,
             this.posterPath,
             this.backdropPath,
-            this.genres
+            this.genres,
+            fav
         )
     }
 }

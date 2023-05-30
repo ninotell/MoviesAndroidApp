@@ -35,9 +35,12 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             val result = multiSearchUseCase(_query.value ?: "")
             _resultsList.clear()
-            result?.results?.forEach {
-                _resultsList.add(it.toUIModel())
-                Log.d("SEARCH", it.toString())
+            result?.results?.forEach { movieResult ->
+                _resultsList.add(movieResult.toUIModel())
+                Log.d("SEARCH", movieResult.toString())
+                _resultsList.sortByDescending { movie ->
+                    movie.popularity
+                }
             }
         }
     }

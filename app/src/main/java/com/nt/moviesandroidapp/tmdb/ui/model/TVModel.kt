@@ -13,4 +13,17 @@ data class TVModel(
     val backdropPath: String,
     val genres: List<Genre>,
     val fav: Boolean = false
-)
+) {
+    fun toFavoriteData(): FavoriteModel {
+        return FavoriteModel(
+            this.id,
+            "tv",
+            null,
+            this.name,
+            this.posterPath,
+            null,
+            null,
+            "",
+        )
+    }
+}

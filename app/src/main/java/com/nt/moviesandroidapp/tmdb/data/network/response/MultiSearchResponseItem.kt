@@ -65,7 +65,8 @@ data class MultiSearchResponseItem(
             this.backdropPath,
             this.genreIds,
             this.releaseDate,
-            this.profilePath
+            this.profilePath,
+            this.popularity
         )
     }
 }

@@ -192,9 +192,8 @@ fun TrendingItem(
                 Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                item,
-                trendingViewModel
-            )
+                item.fav
+            ) { trendingViewModel.onFavButtonSelected(item) }
         }
         Column(
             Modifier

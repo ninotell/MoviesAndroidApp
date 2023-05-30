@@ -1,6 +1,7 @@
 package com.nt.moviesandroidapp.tmdb.ui.model
 
 import com.nt.moviesandroidapp.tmdb.data.network.models.Genre
+import com.nt.moviesandroidapp.util.genreIDListToString
 
 data class MovieModel(
     val id: Int,
@@ -13,4 +14,17 @@ data class MovieModel(
     val backdropPath: String,
     val genres: List<Genre>,
     val fav: Boolean = false
-)
+) {
+    fun toFavoriteData(): FavoriteModel {
+        return FavoriteModel(
+            this.id,
+            "movie",
+            this.title,
+            null,
+            this.posterPath,
+            null,
+            this.releaseDate,
+            "",
+        )
+    }
+}
