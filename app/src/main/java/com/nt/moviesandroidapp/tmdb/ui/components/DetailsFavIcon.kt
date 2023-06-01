@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -17,12 +18,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun DetailsFavIcon(isFav: Boolean, modifier: Modifier, onFavSelected: () -> Boolean) {
-    Box(
+    FloatingActionButton(
         modifier = modifier
             .clip(CircleShape)
-            .background(Color.LightGray.copy(.5f))
-            .clickable { },
-        contentAlignment = Alignment.Center
+            .background(Color.LightGray.copy(.5f)),
+        onClick = { onFavSelected() }
     ) {
         FavIconLottie(modifier = Modifier, isFav = isFav) {
             onFavSelected()

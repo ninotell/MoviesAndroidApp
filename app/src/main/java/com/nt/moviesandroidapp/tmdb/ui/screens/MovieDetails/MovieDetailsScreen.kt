@@ -50,12 +50,9 @@ fun MovieDetailsScreen(
     val isLoading: Boolean by movieDetailsViewModel.isLoading.observeAsState(initial = false)
     val error by movieDetailsViewModel.error.observeAsState()
     val movie by movieDetailsViewModel.movie.observeAsState()
-    Column(
+    Box(
         modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = if (error == null) Arrangement.Top else Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxSize(),
     ) {
         if (error != null) {
             ErrorComponent(Modifier, error!!, navController)
@@ -66,7 +63,23 @@ fun MovieDetailsScreen(
             )
         } else {
             movie?.let { m ->
+                AsyncImage(
+                    model = "https://image.tmdb.org/t/p/w500/${m.posterPath}",
+                    contentDescription = "background",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .alpha(alpha = 0.3f)
+                        .blur(radius = 100f.dp),
+                    contentScale = ContentScale.Crop
+                )
                 MovieDetails(m, movieDetailsViewModel)
+                DetailsFavIcon(
+                    movieDetailsViewModel.isFavMovie(m.id),
+                    Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(32.dp)
+                        .size(42.dp)
+                ) { movieDetailsViewModel.onFavButtonSelected(m) }
             }
         }
     }
@@ -74,16 +87,11 @@ fun MovieDetailsScreen(
 
 @Composable
 fun MovieDetails(movie: MovieModel, movieDetailsViewModel: MovieDetailsViewModel) {
-    BoxWithConstraints(Modifier.fillMaxSize()) {
-        AsyncImage(
-            model = "https://image.tmdb.org/t/p/w500/${movie.posterPath}",
-            contentDescription = "background",
-            modifier = Modifier
-                .fillMaxSize()
-                .alpha(alpha = 0.3f)
-                .blur(radius = 100f.dp),
-            contentScale = ContentScale.Crop
-        )
+    BoxWithConstraints(
+        Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -94,16 +102,7 @@ fun MovieDetails(movie: MovieModel, movieDetailsViewModel: MovieDetailsViewModel
                         .fillMaxWidth()
                         .height(280.dp)
                 ) {
-                    Box() {
-                        TopImage(path = movie.backdropPath, modifier = Modifier)
-                        DetailsFavIcon(
-                            movieDetailsViewModel.isFavMovie(movie.id),
-                            Modifier
-                                .align(Alignment.BottomEnd)
-                                .padding(8.dp)
-                                .size(32.dp)
-                        ) { movieDetailsViewModel.onFavButtonSelected(movie) }
-                    }
+                    TopImage(path = movie.backdropPath, modifier = Modifier)
                 }
                 Box(
                     Modifier

@@ -48,7 +48,6 @@ fun TVDetailsScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
     ) {
         if (isLoading) {
             Box(
@@ -57,6 +56,15 @@ fun TVDetailsScreen(
             )
         } else {
             tv?.let {
+                AsyncImage(
+                    model = "https://image.tmdb.org/t/p/w500/${it.posterPath}",
+                    contentDescription = "background",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .alpha(alpha = 0.3f)
+                        .blur(radius = 100f.dp),
+                    contentScale = ContentScale.Crop
+                )
                 TVDetails(it, tvDetailsViewModel)
                 DetailsFavIcon(
                     tvDetailsViewModel.isFavMovie(it.id),
@@ -73,18 +81,10 @@ fun TVDetailsScreen(
 @Composable
 fun TVDetails(tv: TVModel, tvDetailsViewModel: TVDetailsViewModel) {
     BoxWithConstraints(Modifier.fillMaxSize()) {
-        AsyncImage(
-            model = "https://image.tmdb.org/t/p/w500/${tv.posterPath}",
-            contentDescription = "background",
-            modifier = Modifier
-                .fillMaxSize()
-                .alpha(alpha = 0.3f)
-                .blur(radius = 100f.dp),
-            contentScale = ContentScale.Crop
-        )
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Box(
