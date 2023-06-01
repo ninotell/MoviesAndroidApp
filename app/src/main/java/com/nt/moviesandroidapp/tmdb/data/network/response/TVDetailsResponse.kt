@@ -9,7 +9,7 @@ data class TVDetailsResponse(
     @SerializedName("adult")
     val adult: Boolean,
     @SerializedName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerializedName("episode_run_time")
     val episodeRunTime: List<Int>,
     @SerializedName("first_air_date")

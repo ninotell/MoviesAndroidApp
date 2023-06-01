@@ -102,7 +102,9 @@ fun MovieDetails(movie: MovieModel, movieDetailsViewModel: MovieDetailsViewModel
                         .fillMaxWidth()
                         .height(280.dp)
                 ) {
-                    TopImage(path = movie.backdropPath, modifier = Modifier)
+                    movie.backdropPath?.let { path ->
+                        TopImage(path = path, modifier = Modifier)
+                    }
                 }
                 Box(
                     Modifier

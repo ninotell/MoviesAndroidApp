@@ -11,7 +11,7 @@ data class MovieModel(
     val voteAverage: Double,
     val releaseDate: String,
     val posterPath: String,
-    val backdropPath: String,
+    val backdropPath: String?,
     val genres: List<Genre>,
     val fav: Boolean = false
 ) {

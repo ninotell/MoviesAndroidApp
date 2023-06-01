@@ -10,7 +10,7 @@ data class TVModel(
     val voteAverage: Double,
     val firstAirDate: String,
     val posterPath: String,
-    val backdropPath: String,
+    val backdropPath: String?,
     val genres: List<Genre>,
     val fav: Boolean = false
 ) {

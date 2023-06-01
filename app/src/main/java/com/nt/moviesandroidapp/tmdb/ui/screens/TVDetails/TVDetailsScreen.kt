@@ -92,7 +92,9 @@ fun TVDetails(tv: TVModel, tvDetailsViewModel: TVDetailsViewModel) {
                         .fillMaxWidth()
                         .height(280.dp)
                 ) {
-                    TopImage(path = tv.backdropPath, modifier = Modifier)
+                    tv.backdropPath?.let { path ->
+                        TopImage(path = path, modifier = Modifier)
+                    }
                 }
                 Box(
                     Modifier
