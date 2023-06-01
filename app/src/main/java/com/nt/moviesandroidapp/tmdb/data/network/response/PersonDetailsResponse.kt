@@ -11,9 +11,9 @@ data class PersonDetailsResponse(
     @SerializedName("also_known_as")
     val alsoKnownAs: List<String>,
     @SerializedName("biography")
-    val biography: String,
+    val biography: String?,
     @SerializedName("birthday")
-    val birthday: String,
+    val birthday: String?,
     @SerializedName("deathday")
     val deathday: String?,
     @SerializedName("gender")
@@ -29,11 +29,11 @@ data class PersonDetailsResponse(
     @SerializedName("name")
     val name: String,
     @SerializedName("place_of_birth")
-    val placeOfBirth: String,
+    val placeOfBirth: String?,
     @SerializedName("popularity")
     val popularity: Double,
     @SerializedName("profile_path")
-    val profilePath: String
+    val profilePath: String?
 ) {
     fun toUIModel(): PersonModel {
         return PersonModel(

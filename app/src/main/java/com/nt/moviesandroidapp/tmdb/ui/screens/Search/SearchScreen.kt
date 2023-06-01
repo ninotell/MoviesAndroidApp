@@ -171,7 +171,9 @@ fun SearchResultItem(item: MultiSearchItemModel, navController: NavHostControlle
                 } else {
                     Image(
                         painterResource(id = R.drawable.default_profile_image),
-                        contentDescription = "defaultImage"
+                        contentDescription = "defaultImage",
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(12.dp))
                     )
                 }
                 Column(

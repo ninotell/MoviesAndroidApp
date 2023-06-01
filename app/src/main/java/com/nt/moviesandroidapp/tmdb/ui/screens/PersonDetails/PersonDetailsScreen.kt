@@ -1,6 +1,7 @@
 package com.nt.moviesandroidapp.tmdb.ui.screens.PersonDetails
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -123,15 +125,24 @@ fun PersonDetails(person: PersonModel) {
                     .aspectRatio(9 / 16f),
                 contentAlignment = Alignment.Center
             ) {
-                AsyncImage(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp)),
-                    model = "https://image.tmdb.org/t/p/w500/${person.profilePath}",
-                    contentDescription = "Profile Image",
-                    contentScale = ContentScale.FillWidth,
-                    placeholder = debugPlaceholder(debugPreview = R.drawable.poster),
+                if (!person.profilePath.isNullOrEmpty()) {
+                    AsyncImage(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(8.dp)),
+                        model = "https://image.tmdb.org/t/p/w500/${person.profilePath}",
+                        contentDescription = "Profile Image",
+                        contentScale = ContentScale.FillWidth,
+                        placeholder = debugPlaceholder(debugPreview = R.drawable.poster),
 
-                )
+                        )
+                } else {
+                    Image(
+                        painterResource(id = R.drawable.default_profile_image),
+                        contentDescription = "defaultImage",
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(12.dp))
+                    )
+                }
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -142,14 +153,16 @@ fun PersonDetails(person: PersonModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(Modifier.weight(5f)) {
-                person.birthday.let { birthday ->
+                person.birthday?.let { birthday ->
                     DetailText(
                         prefix = "Born: ",
                         detail = "${formatDate(birthday)} (${calculateAge(birthday)} years)"
                     )
                 }
 
-                DetailText(prefix = "Place of Birth: ", detail = person.placeOfBirth)
+                person.placeOfBirth?.let { placeOfBirth ->
+                    DetailText(prefix = "Place of Birth: ", detail = placeOfBirth)
+                }
 
                 person.deathday?.let { deathday ->
                     DetailText(prefix = "Death Date: ", detail = formatDate(deathday))
@@ -163,17 +176,18 @@ fun PersonDetails(person: PersonModel) {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = "Biography",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
-
-        Text(
-            text = person.biography,
-            textAlign = TextAlign.Justify
-        )
+        if(!person.biography.isNullOrEmpty()) {
+            Text(
+                text = "Biography",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+            Text(
+                text = person.biography,
+                textAlign = TextAlign.Justify
+            )
+        }
 
 
     }
