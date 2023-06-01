@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.nt.moviesandroidapp.R
+import com.nt.moviesandroidapp.tmdb.ui.components.SearchTextField
 import com.nt.moviesandroidapp.tmdb.ui.model.MultiSearchItemModel
 import com.nt.moviesandroidapp.tmdb.ui.navigation.DetailsScreen
 import com.nt.moviesandroidapp.ui.theme.CustomYellow
@@ -52,19 +53,12 @@ fun SearchScreen(navController: NavHostController, searchViewModel: SearchViewMo
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold
         )
-        OutlinedTextField(
-            modifier = Modifier
+        SearchTextField(
+            Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp, horizontal = 12.dp),
-            value = query.value,
-            onValueChange = {
-                searchViewModel.onSearchQueryChange(it)
-            },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = CustomYellow
-            ),
-            singleLine = true,
-        )
+                .padding(horizontal = 8.dp, vertical = 12.dp),
+            query.value
+        ) { searchViewModel.onSearchQueryChange(it) }
         if (resultList.isEmpty()) {
             Box(
                 Modifier
@@ -145,12 +139,12 @@ fun SearchResultItem(item: MultiSearchItemModel, navController: NavHostControlle
             .clip(RoundedCornerShape(8.dp))
             .fillMaxWidth()
             .clickable {
-                    navController.navigate(
-                        getDetailsRoute(item.mediaType, item.id)
-                    ) {
-                        launchSingleTop = true
-                    }
+                navController.navigate(
+                    getDetailsRoute(item.mediaType, item.id)
+                ) {
+                    launchSingleTop = true
                 }
+            }
     ) {
         Row(Modifier.fillMaxWidth()) {
             Row(
