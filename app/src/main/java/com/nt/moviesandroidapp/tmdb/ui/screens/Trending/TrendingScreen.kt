@@ -67,6 +67,7 @@ import com.nt.moviesandroidapp.tmdb.ui.components.LoadingComponent
 import com.nt.moviesandroidapp.tmdb.ui.components.TopImage
 import com.nt.moviesandroidapp.tmdb.ui.model.TrendingItemModel
 import com.nt.moviesandroidapp.ui.theme.CustomYellow
+import com.nt.moviesandroidapp.util.Constants.Companion.ROUNDED_ITEM_VALUE
 import com.nt.moviesandroidapp.util.getDetailsRoute
 
 
@@ -140,7 +141,7 @@ fun TrendingSection(
 ) {
     SectionTitle(title)
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
         contentPadding = PaddingValues(horizontal = 12.dp)
     ) {
         items(trendingList, key = { it.id }) {
@@ -162,7 +163,7 @@ fun TrendingItem(
     ) {
         Column(
             modifier = Modifier
-                .clip(RoundedCornerShape(12.dp))
+                .clip(RoundedCornerShape(ROUNDED_ITEM_VALUE))
                 .fillMaxWidth()
                 .weight(4f)
         ) {

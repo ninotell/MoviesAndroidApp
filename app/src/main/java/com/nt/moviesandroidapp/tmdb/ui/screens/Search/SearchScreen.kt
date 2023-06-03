@@ -44,6 +44,7 @@ import com.nt.moviesandroidapp.tmdb.ui.components.SearchTextField
 import com.nt.moviesandroidapp.tmdb.ui.model.MultiSearchItemModel
 import com.nt.moviesandroidapp.tmdb.ui.navigation.DetailsScreen
 import com.nt.moviesandroidapp.ui.theme.CustomYellow
+import com.nt.moviesandroidapp.util.Constants.Companion.ROUNDED_ITEM_VALUE
 import com.nt.moviesandroidapp.util.getDetailsRoute
 import com.nt.moviesandroidapp.util.mapTypesTitles
 
@@ -158,7 +159,7 @@ fun SearchResultItem(item: MultiSearchItemModel, navController: NavHostControlle
     }
     Box(
         Modifier
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(ROUNDED_ITEM_VALUE))
             .fillMaxWidth()
             .clickable {
                 navController.navigate(
@@ -171,7 +172,7 @@ fun SearchResultItem(item: MultiSearchItemModel, navController: NavHostControlle
         Row(Modifier.fillMaxWidth()) {
             Row(
                 Modifier
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(ROUNDED_ITEM_VALUE))
                     .fillMaxWidth()
                     .height(120.dp)
                     .background(Color.LightGray.copy(0.15f))
@@ -182,14 +183,14 @@ fun SearchResultItem(item: MultiSearchItemModel, navController: NavHostControlle
                         contentDescription = "poster",
                         contentScale = ContentScale.FillHeight,
                         modifier = Modifier
-                            .clip(RoundedCornerShape(12.dp))
+                            .clip(RoundedCornerShape(ROUNDED_ITEM_VALUE))
                     )
                 } else {
                     Image(
                         painterResource(id = R.drawable.default_profile_image),
                         contentDescription = "defaultImage",
                         modifier = Modifier
-                            .clip(RoundedCornerShape(12.dp))
+                            .clip(RoundedCornerShape(ROUNDED_ITEM_VALUE))
                     )
                 }
                 Column(

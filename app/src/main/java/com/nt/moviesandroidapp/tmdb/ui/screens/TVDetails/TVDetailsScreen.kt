@@ -36,6 +36,7 @@ import com.nt.moviesandroidapp.tmdb.ui.components.GenresGrid
 import com.nt.moviesandroidapp.tmdb.ui.components.RatingStars
 import com.nt.moviesandroidapp.tmdb.ui.components.TopImage
 import com.nt.moviesandroidapp.tmdb.ui.model.TVModel
+import com.nt.moviesandroidapp.util.Constants.Companion.ROUNDED_ITEM_VALUE
 
 @Composable
 fun TVDetailsScreen(
@@ -107,7 +108,7 @@ fun TVDetails(tv: TVModel, tvDetailsViewModel: TVDetailsViewModel) {
                         model = "https://image.tmdb.org/t/p/w500/${tv.posterPath}",
                         contentDescription = "poster",
                         modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp))
+                            .clip(RoundedCornerShape(ROUNDED_ITEM_VALUE))
                             .height(235.dp)
                             .align(Alignment.TopStart)
                     )

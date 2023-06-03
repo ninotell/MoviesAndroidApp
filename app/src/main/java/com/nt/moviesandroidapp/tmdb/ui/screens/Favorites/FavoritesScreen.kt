@@ -45,6 +45,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.nt.moviesandroidapp.tmdb.ui.model.FavoriteModel
+import com.nt.moviesandroidapp.util.Constants.Companion.ROUNDED_ITEM_VALUE
 import com.nt.moviesandroidapp.util.getDetailsRoute
 import com.nt.moviesandroidapp.util.mapTypesTitles
 
@@ -168,7 +169,7 @@ fun FavItem(
             }) {
         Row(
             Modifier
-                .clip(RoundedCornerShape(12.dp))
+                .clip(RoundedCornerShape(ROUNDED_ITEM_VALUE))
                 .fillMaxWidth()
                 .height(160.dp)
                 .background(Color.LightGray.copy(0.15f))
@@ -178,7 +179,7 @@ fun FavItem(
                 contentDescription = "poster",
                 contentScale = ContentScale.FillHeight,
                 modifier = Modifier
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(ROUNDED_ITEM_VALUE))
             )
             Column(
                 Modifier

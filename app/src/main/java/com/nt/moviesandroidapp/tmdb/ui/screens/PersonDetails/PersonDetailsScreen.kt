@@ -44,6 +44,7 @@ import com.nt.moviesandroidapp.tmdb.ui.components.DetailsFavIcon
 import com.nt.moviesandroidapp.tmdb.ui.components.PopularityIcon
 import com.nt.moviesandroidapp.tmdb.ui.model.PersonModel
 import com.nt.moviesandroidapp.tmdb.ui.screens.MovieDetails.debugPlaceholder
+import com.nt.moviesandroidapp.util.Constants.Companion.ROUNDED_ITEM_VALUE
 import com.nt.moviesandroidapp.util.calculateAge
 import com.nt.moviesandroidapp.util.formatDate
 import com.nt.moviesandroidapp.util.genderMap
@@ -128,7 +129,7 @@ fun PersonDetails(person: PersonModel) {
                 if (!person.profilePath.isNullOrEmpty()) {
                     AsyncImage(
                         modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp)),
+                            .clip(RoundedCornerShape(ROUNDED_ITEM_VALUE)),
                         model = "https://image.tmdb.org/t/p/w500/${person.profilePath}",
                         contentDescription = "Profile Image",
                         contentScale = ContentScale.FillWidth,
@@ -140,7 +141,7 @@ fun PersonDetails(person: PersonModel) {
                         painterResource(id = R.drawable.default_profile_image),
                         contentDescription = "defaultImage",
                         modifier = Modifier
-                            .clip(RoundedCornerShape(12.dp))
+                            .clip(RoundedCornerShape(ROUNDED_ITEM_VALUE))
                     )
                 }
             }

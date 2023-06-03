@@ -41,6 +41,7 @@ import com.nt.moviesandroidapp.tmdb.ui.components.GenresGrid
 import com.nt.moviesandroidapp.tmdb.ui.components.RatingStars
 import com.nt.moviesandroidapp.tmdb.ui.components.TopImage
 import com.nt.moviesandroidapp.tmdb.ui.model.MovieModel
+import com.nt.moviesandroidapp.util.Constants.Companion.ROUNDED_ITEM_VALUE
 
 @Composable
 fun MovieDetailsScreen(
@@ -119,7 +120,7 @@ fun MovieDetails(movie: MovieModel, movieDetailsViewModel: MovieDetailsViewModel
                         contentDescription = "poster",
 //                        contentScale = ContentScale.FillHeight,
                         modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp))
+                            .clip(RoundedCornerShape(ROUNDED_ITEM_VALUE))
                             .height(235.dp)
                             .align(Alignment.TopStart)
                     )
