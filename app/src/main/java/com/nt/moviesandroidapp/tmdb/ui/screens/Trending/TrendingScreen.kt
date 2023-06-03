@@ -63,6 +63,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.nt.moviesandroidapp.R
 import com.nt.moviesandroidapp.tmdb.ui.components.ErrorComponent
 import com.nt.moviesandroidapp.tmdb.ui.components.FavIconLottie
+import com.nt.moviesandroidapp.tmdb.ui.components.LoadingComponent
 import com.nt.moviesandroidapp.tmdb.ui.components.TopImage
 import com.nt.moviesandroidapp.tmdb.ui.model.TrendingItemModel
 import com.nt.moviesandroidapp.ui.theme.CustomYellow
@@ -92,7 +93,7 @@ fun TrendingScreen(trendingViewModel: TrendingViewModel, navController: NavHostC
                 navController = navController
             )
         } else if (isLoading) {
-            LinearProgressIndicator()
+            LoadingComponent(Modifier)
         } else {
             TopImage(path = topImagePath, modifier = Modifier)
 

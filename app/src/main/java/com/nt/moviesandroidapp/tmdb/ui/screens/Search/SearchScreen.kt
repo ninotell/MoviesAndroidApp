@@ -39,6 +39,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.nt.moviesandroidapp.R
 import com.nt.moviesandroidapp.tmdb.ui.components.ErrorComponent
+import com.nt.moviesandroidapp.tmdb.ui.components.LoadingComponent
 import com.nt.moviesandroidapp.tmdb.ui.components.SearchTextField
 import com.nt.moviesandroidapp.tmdb.ui.model.MultiSearchItemModel
 import com.nt.moviesandroidapp.tmdb.ui.navigation.DetailsScreen
@@ -50,6 +51,7 @@ import com.nt.moviesandroidapp.util.mapTypesTitles
 fun SearchScreen(navController: NavHostController, searchViewModel: SearchViewModel) {
     val resultList = searchViewModel.resultsList
     val error by searchViewModel.error.observeAsState()
+    val isLoading by searchViewModel.isLoading.observeAsState(false)
     val query = searchViewModel.query.observeAsState(initial = "")
 
     Column(Modifier.fillMaxSize()) {
@@ -66,8 +68,19 @@ fun SearchScreen(navController: NavHostController, searchViewModel: SearchViewMo
             query.value
         ) { searchViewModel.onSearchQueryChange(it) }
 
-        if (error != null) {
-            ErrorComponent(modifier = Modifier.fillMaxSize(), error = error!!, navController = navController)
+        if (isLoading) {
+            Box(
+                Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                LoadingComponent(Modifier)
+            }
+        } else if (error != null) {
+            ErrorComponent(
+                modifier = Modifier.fillMaxSize(),
+                error = error!!,
+                navController = navController
+            )
         } else if (resultList.isEmpty()) {
             Box(
                 Modifier

@@ -1,6 +1,7 @@
 package com.nt.moviesandroidapp.tmdb.ui.screens.Search
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,6 +28,9 @@ class SearchViewModel @Inject constructor(
     private val _error = MutableLiveData<ApiError>()
     val error: LiveData<ApiError> = _error
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
 
     fun onSearchQueryChange(query: String) {
         if (_query.value == query || query.length > SEARCH_QUERY_MAX_CHAR) {
@@ -34,6 +38,7 @@ class SearchViewModel @Inject constructor(
         }
         _query.value = query
         viewModelScope.launch {
+            _isLoading.value = true
             try {
                 val apiResponse = multiSearchUseCase(_query.value ?: "")
                 _resultsList.clear()
@@ -44,6 +49,7 @@ class SearchViewModel @Inject constructor(
                         movie.popularity
                     }
                 }
+                _isLoading.value = false
                 _error.value
             } catch (e: ApiError) {
                 _error.value = e
