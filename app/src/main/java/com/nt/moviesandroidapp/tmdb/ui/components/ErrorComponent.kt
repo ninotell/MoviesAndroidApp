@@ -30,10 +30,13 @@ import androidx.navigation.compose.rememberNavController
 import com.nt.moviesandroidapp.R
 import com.nt.moviesandroidapp.tmdb.data.network.ApiError
 import com.nt.moviesandroidapp.ui.theme.CustomYellow
+import com.nt.moviesandroidapp.util.hideKeyboard
 
 @Composable
 fun ErrorComponent(modifier: Modifier, error: ApiError, navController: NavHostController) {
     val activity = LocalContext.current as Activity
+    activity.hideKeyboard()
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,

@@ -6,6 +6,8 @@ import com.nt.moviesandroidapp.tmdb.data.network.response.MultiSearchResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.PersonDetailsResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.TVDetailsResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.TrendingResponse
+import retrofit2.Response
+import java.io.IOException
 import javax.inject.Inject
 
 class ApiService @Inject constructor(private val apiClient: ApiClient) {
@@ -57,11 +59,11 @@ class ApiService @Inject constructor(private val apiClient: ApiClient) {
         return null
     }
 
-    suspend fun multiSearch(query: String): MultiSearchResponse? {
-        val response = apiClient.multiSearch(query)
-        if (response.isSuccessful){
-            return response.body()
-        }
-        return null
-    }
+//    suspend fun multiSearch(query: String): MultiSearchResponse? {
+//        val response = apiClient.multiSearch(query)
+//        if (response.isSuccessful){
+//            return response.body()
+//        }
+//        return null
+//    }
 }

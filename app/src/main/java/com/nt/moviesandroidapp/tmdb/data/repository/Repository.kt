@@ -3,8 +3,10 @@ package com.nt.moviesandroidapp.tmdb.data.repository
 import android.util.Log
 import com.nt.moviesandroidapp.tmdb.data.database.dao.FavoriteDao
 import com.nt.moviesandroidapp.tmdb.data.database.models.FavoriteEntity
+import com.nt.moviesandroidapp.tmdb.data.network.ApiClient
 import com.nt.moviesandroidapp.tmdb.data.network.ApiError
 import com.nt.moviesandroidapp.tmdb.data.network.ApiService
+import com.nt.moviesandroidapp.tmdb.data.network.response.ApiResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.MovieDetailsResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.MultiSearchResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.PersonDetailsResponse
@@ -13,11 +15,14 @@ import com.nt.moviesandroidapp.tmdb.data.network.response.TrendingResponse
 import com.nt.moviesandroidapp.tmdb.ui.model.FavoriteModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import retrofit2.Response
+import java.io.IOException
 import javax.inject.Inject
 
 class Repository @Inject constructor(
     private val apiService: ApiService,
-    private val favoriteDao: FavoriteDao
+    private val favoriteDao: FavoriteDao,
+    private val apiClient: ApiClient
 ) {
 
     //Encargado de consultar donde requiera (API, db, etc)
@@ -29,6 +34,8 @@ class Repository @Inject constructor(
            else ->  throw ApiError.GenericApiError(response.error?.message ?: "Unexpected error")
         }
     }
+
+
     suspend fun getTVDetailsOnAPI(tvId: Int): TVDetailsResponse? {
         return apiService.getTVDetails(tvId)
     }
@@ -72,10 +79,28 @@ class Repository @Inject constructor(
         favoriteDao.deleteFavorite(favoriteModel.toData())
     }
 
-    suspend fun multiSearchOnAPI(query: String): MultiSearchResponse? {
-        return apiService.multiSearch(query)
+    suspend fun multiSearchOnAPI(query: String): ApiResponse<MultiSearchResponse> {
+        return apiCall { apiClient.multiSearch(query) }
     }
 
+    suspend fun <T> apiCall(call: suspend () -> Response<T>): ApiResponse<T> {
+        try {
+            val response = call.invoke()
+            if (response.isSuccessful) {
+                return ApiResponse(response.code(), response.body(), null)
+            } else {
+                when (response.code()) {
+                    401 -> throw ApiError.IncorrectApiKey
+                    // handle other error codes as needed
+                    else -> throw ApiError.GenericApiError(response.errorBody()?.string() ?: "Unexpected error")
+                }
+            }
+        } catch (e: IOException) {
+            throw ApiError.InternetUnavailable
+        } catch (e: Exception) {
+            throw ApiError.GenericApiError("Unexpected error")
+        }
+    }
 }
 
 fun FavoriteModel.toData(): FavoriteEntity {

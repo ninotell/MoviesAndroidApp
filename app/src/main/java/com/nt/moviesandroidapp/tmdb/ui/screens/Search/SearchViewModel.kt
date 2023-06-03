@@ -6,11 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nt.moviesandroidapp.tmdb.data.network.ApiError
 import com.nt.moviesandroidapp.tmdb.domain.usecase.MultiSearchUseCase
 import com.nt.moviesandroidapp.tmdb.ui.model.MultiSearchItemModel
-import com.nt.moviesandroidapp.tmdb.ui.model.TrendingItemModel
-import com.nt.moviesandroidapp.tmdb.ui.navigation.DetailsScreen
-import com.nt.moviesandroidapp.tmdb.ui.navigation.HomeNavScreen
 import com.nt.moviesandroidapp.util.Constants.Companion.SEARCH_QUERY_MAX_CHAR
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -26,6 +24,9 @@ class SearchViewModel @Inject constructor(
     private val _resultsList: MutableList<MultiSearchItemModel> = mutableStateListOf()
     var resultsList: List<MultiSearchItemModel> = _resultsList
 
+    private val _error = MutableLiveData<ApiError>()
+    val error: LiveData<ApiError> = _error
+
 
     fun onSearchQueryChange(query: String) {
         if (_query.value == query || query.length > SEARCH_QUERY_MAX_CHAR) {
@@ -33,14 +34,19 @@ class SearchViewModel @Inject constructor(
         }
         _query.value = query
         viewModelScope.launch {
-            val result = multiSearchUseCase(_query.value ?: "")
-            _resultsList.clear()
-            result?.results?.forEach { movieResult ->
-                _resultsList.add(movieResult.toUIModel())
-                Log.d("SEARCH", movieResult.toString())
-                _resultsList.sortByDescending { movie ->
-                    movie.popularity
+            try {
+                val apiResponse = multiSearchUseCase(_query.value ?: "")
+                _resultsList.clear()
+                apiResponse?.response?.results?.forEach { movieResult ->
+                    _resultsList.add(movieResult.toUIModel())
+                    Log.d("SEARCH", movieResult.toString())
+                    _resultsList.sortByDescending { movie ->
+                        movie.popularity
+                    }
                 }
+                _error.value
+            } catch (e: ApiError) {
+                _error.value = e
             }
         }
     }

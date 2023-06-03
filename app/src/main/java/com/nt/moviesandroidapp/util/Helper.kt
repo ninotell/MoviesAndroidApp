@@ -1,10 +1,14 @@
 package com.nt.moviesandroidapp.util
 
+import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.Fragment
 import androidx.room.util.newStringBuilder
 import com.nt.moviesandroidapp.tmdb.ui.model.MultiSearchItemModel
 import com.nt.moviesandroidapp.tmdb.ui.navigation.DetailsScreen
@@ -48,6 +52,19 @@ val genderMap: Map<Int, String> = mapOf(
     1 to "Female",
     2 to "Male",
 )
+
+fun Fragment.hideKeyboard() {
+    view?.let { activity?.hideKeyboard(it) }
+}
+
+fun Activity.hideKeyboard() {
+    hideKeyboard(currentFocus ?: View(this))
+}
+
+fun Context.hideKeyboard(view: View) {
+    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}
 
 fun formatDate(dateToFormat: String): String {
     val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())

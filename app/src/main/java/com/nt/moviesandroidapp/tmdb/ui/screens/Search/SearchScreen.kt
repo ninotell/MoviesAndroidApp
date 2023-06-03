@@ -21,12 +21,15 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -35,6 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.nt.moviesandroidapp.R
+import com.nt.moviesandroidapp.tmdb.ui.components.ErrorComponent
 import com.nt.moviesandroidapp.tmdb.ui.components.SearchTextField
 import com.nt.moviesandroidapp.tmdb.ui.model.MultiSearchItemModel
 import com.nt.moviesandroidapp.tmdb.ui.navigation.DetailsScreen
@@ -45,7 +49,9 @@ import com.nt.moviesandroidapp.util.mapTypesTitles
 @Composable
 fun SearchScreen(navController: NavHostController, searchViewModel: SearchViewModel) {
     val resultList = searchViewModel.resultsList
+    val error by searchViewModel.error.observeAsState()
     val query = searchViewModel.query.observeAsState(initial = "")
+
     Column(Modifier.fillMaxSize()) {
         Text(
             text = "Search",
@@ -59,7 +65,10 @@ fun SearchScreen(navController: NavHostController, searchViewModel: SearchViewMo
                 .padding(horizontal = 8.dp, vertical = 12.dp),
             query.value
         ) { searchViewModel.onSearchQueryChange(it) }
-        if (resultList.isEmpty()) {
+
+        if (error != null) {
+            ErrorComponent(modifier = Modifier.fillMaxSize(), error = error!!, navController = navController)
+        } else if (resultList.isEmpty()) {
             Box(
                 Modifier
                     .fillMaxSize()
