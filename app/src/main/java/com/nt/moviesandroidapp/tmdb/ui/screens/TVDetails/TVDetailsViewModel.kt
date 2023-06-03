@@ -59,7 +59,7 @@ class TVDetailsViewModel @Inject constructor(
             _isLoading.value = true
             val result =
                 movieId.let { getTVDetailsUseCase.invoke(it) }
-            _tv.value = result?.toUIModel()
+            _tv.value = result?.response?.toUIModel() //TODO: HANDLE ERRORS
             _isLoading.value = false
         }
     }

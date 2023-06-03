@@ -58,14 +58,14 @@ class TrendingViewModel @Inject constructor(
     fun getTrending() {
         viewModelScope.launch {
             _isLoading.value = true
-            val resultMovieList = getTrendingMoviesUseCase()?.results
+            val resultMovieList = getTrendingMoviesUseCase()?.response?.results //TODO: HANDLE ERRORS
             _topImagePath.value = resultMovieList?.get(0)?.backdropPath
             resultMovieList?.map { _trendingMovies.add(it.toUIModel()) }
 
-            val resultTVShowsList = getTrendingTVShowsUseCase()?.results
+            val resultTVShowsList = getTrendingTVShowsUseCase()?.response?.results //TODO: HANDLE ERRORS
             resultTVShowsList?.map { _trendingTVShows.add(it.toUIModel()) }
 
-            val resultPeopleList = getTrendingPeopleUseCase()?.results
+            val resultPeopleList = getTrendingPeopleUseCase()?.response?.results //TODO: HANDLE ERRORS
             resultPeopleList?.map { _trendingPeople.add(it.toUIModel()) }
 
             updateFavs()

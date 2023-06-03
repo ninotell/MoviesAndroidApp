@@ -5,7 +5,6 @@ import com.nt.moviesandroidapp.tmdb.data.database.dao.FavoriteDao
 import com.nt.moviesandroidapp.tmdb.data.database.models.FavoriteEntity
 import com.nt.moviesandroidapp.tmdb.data.network.ApiClient
 import com.nt.moviesandroidapp.tmdb.data.network.ApiError
-import com.nt.moviesandroidapp.tmdb.data.network.ApiService
 import com.nt.moviesandroidapp.tmdb.data.network.response.ApiResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.MovieDetailsResponse
 import com.nt.moviesandroidapp.tmdb.data.network.response.MultiSearchResponse
@@ -20,41 +19,63 @@ import java.io.IOException
 import javax.inject.Inject
 
 class Repository @Inject constructor(
-    private val apiService: ApiService,
     private val favoriteDao: FavoriteDao,
     private val apiClient: ApiClient
 ) {
 
     //Encargado de consultar donde requiera (API, db, etc)
-    suspend fun getMovieDetailsOnAPI(movieId: Int): MovieDetailsResponse? {
-        val response = apiService.getMovieDetails(movieId)
-        when (response.code){
-           200 -> return response.response
-           401 -> throw ApiError.IncorrectApiKey
-           else ->  throw ApiError.GenericApiError(response.error?.message ?: "Unexpected error")
+
+    // API CALLS
+    suspend fun <T> apiCall(call: suspend () -> Response<T>): ApiResponse<T> {
+        try {
+            val response = call.invoke()
+            if (response.isSuccessful) {
+                return ApiResponse(response.code(), response.body(), null)
+            } else {
+                when (response.code()) {
+                    401 -> throw ApiError.IncorrectApiKey
+                    // handle other error codes as needed
+                    else -> throw ApiError.GenericApiError(
+                        response.errorBody()?.string() ?: "Unexpected error"
+                    )
+                }
+            }
+        } catch (e: IOException) {
+            throw ApiError.InternetUnavailable
+        } catch (e: Exception) {
+            throw ApiError.GenericApiError("Unexpected error")
         }
     }
 
-
-    suspend fun getTVDetailsOnAPI(tvId: Int): TVDetailsResponse? {
-        return apiService.getTVDetails(tvId)
-    }
-    suspend fun getPersonDetailsOnAPI(personId: Int): PersonDetailsResponse? {
-        return apiService.getPersonDetails(personId)
+    suspend fun getMovieDetailsOnAPI(movieId: Int): ApiResponse<MovieDetailsResponse> {
+        return apiCall { apiClient.getMovieDetails(movieId) }
     }
 
-    suspend fun getTrendingMoviesOnAPI(): TrendingResponse? {
-        return apiService.getTrendingMovies()
+    suspend fun getTVDetailsOnAPI(tvId: Int): ApiResponse<TVDetailsResponse> {
+        return apiCall { apiClient.getTVDetails(tvId) }
     }
 
-    suspend fun getTrendingTVShowsOnAPI(): TrendingResponse? {
-        return apiService.getTrendingTVShows()
+    suspend fun getPersonDetailsOnAPI(personId: Int): ApiResponse<PersonDetailsResponse> {
+        return apiCall { apiClient.getPersonDetails(personId) }
     }
 
-    suspend fun getTrendingPeopleOnAPI(): TrendingResponse? {
-        return apiService.getTrendingPerson()
+    suspend fun getTrendingMoviesOnAPI(): ApiResponse<TrendingResponse> {
+        return apiCall { apiClient.getTrendingMovies() }
     }
 
+    suspend fun getTrendingTVShowsOnAPI(): ApiResponse<TrendingResponse> {
+        return apiCall { apiClient.getTrendingTVShows() }
+    }
+
+    suspend fun getTrendingPeopleOnAPI(): ApiResponse<TrendingResponse> {
+        return apiCall { apiClient.getTrendingPeople() }
+    }
+
+    suspend fun multiSearchOnAPI(query: String): ApiResponse<MultiSearchResponse> {
+        return apiCall { apiClient.multiSearch(query) }
+    }
+
+    // LOCAL CALLS (DB)
     val favMovies: Flow<List<FavoriteModel>> = favoriteDao.getFavorites().map { items ->
         items.map {
             FavoriteModel(
@@ -77,29 +98,6 @@ class Repository @Inject constructor(
 
     suspend fun deleteFavItem(favoriteModel: FavoriteModel) {
         favoriteDao.deleteFavorite(favoriteModel.toData())
-    }
-
-    suspend fun multiSearchOnAPI(query: String): ApiResponse<MultiSearchResponse> {
-        return apiCall { apiClient.multiSearch(query) }
-    }
-
-    suspend fun <T> apiCall(call: suspend () -> Response<T>): ApiResponse<T> {
-        try {
-            val response = call.invoke()
-            if (response.isSuccessful) {
-                return ApiResponse(response.code(), response.body(), null)
-            } else {
-                when (response.code()) {
-                    401 -> throw ApiError.IncorrectApiKey
-                    // handle other error codes as needed
-                    else -> throw ApiError.GenericApiError(response.errorBody()?.string() ?: "Unexpected error")
-                }
-            }
-        } catch (e: IOException) {
-            throw ApiError.InternetUnavailable
-        } catch (e: Exception) {
-            throw ApiError.GenericApiError("Unexpected error")
-        }
     }
 }
 

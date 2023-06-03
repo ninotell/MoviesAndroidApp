@@ -61,7 +61,7 @@ class MovieDetailsViewModel @Inject constructor(
                 try {
                     val result =
                         getMovieDetailsUseCase(movieId)
-                    result?.let {
+                    result?.response?.let {  //TODO: HANDLE ERRORS
                     _movie.value = it.toUIModel(isFavMovie(it.id))
                     }
 

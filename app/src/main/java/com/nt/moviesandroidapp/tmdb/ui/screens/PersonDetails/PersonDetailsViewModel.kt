@@ -58,7 +58,7 @@ class PersonDetailsViewModel @Inject constructor(
             _isLoading.value = true
             val result =
                 movieId.let { getPersonDetailsUseCase.invoke(it) }
-            _person.value = result?.toUIModel()
+            _person.value = result?.response?.toUIModel() //TODO: HANDLE ERRORS
             _isLoading.value = false
         }
     }
